@@ -250,15 +250,15 @@ function Page() {
               <span className="py-1"> &gt; {itemName}</span>
             </div>
 
-            <div className="my-2 flex w-fit max-w-[400px] flex-col rounded-2xl bg-white p-4">
+            <div className="my-2 flex  justify-center  w-[400px] flex-col rounded-2xl bg-white p-4">
               <Image
                 src={imgUrl}
                 alt=""
                 width={1080}
                 height={920}
-                className=" flex h-[300px] w-[300px] items-center justify-center rounded-2xl object-cover"
+                className=" flex h-[350px] w-[350px] items-center justify-center rounded-2xl object-cover mx-auto"
               />
-              <h1 className="pt-2 text-4xl text-black">{itemName}</h1>
+              <h1 className="pt-2 text-4xl text-black">{itemName.split("-").join(" ")}</h1>
               <h1 className="pt-1 text-2xl text-black">
                 Price : {price} MATIC
               </h1>

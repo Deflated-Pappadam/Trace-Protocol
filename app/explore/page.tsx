@@ -110,7 +110,7 @@ function Page() {
                 id={val.tokenId}
                 price={val.price}
                 imgUrl={val.image}
-                itemName={val.name}
+                itemName={val.name.split("-").join(" ")}
                 desc={val.description}
               />
             ))}
@@ -129,7 +129,7 @@ function Page() {
                 price={val.price}
                 id={val.tokenId}
                 imgUrl={val.image}
-                itemName={val.name}
+                itemName={val.name.split("-").join(" ")}
                 desc={val.description}
               />
             ))}
