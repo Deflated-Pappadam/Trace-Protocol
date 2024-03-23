@@ -121,8 +121,9 @@ export default function Home() {
           <h3 className="text-md p-2 text-[#7e7d7e]">
             ©️deflated pappadam 2024
           </h3>
+          <h3 className="text-md p-2 text-[#7e7d7e]">*All website assets exclusively crafted by our team or using stable diffusion models</h3>
         </footer>
-        <h3 className="text-md p-2 text-[#7e7d7e]">*All website assets exclusively crafted by our team and stable diffusion model</h3>
+        
       </section>
     </main>
   );

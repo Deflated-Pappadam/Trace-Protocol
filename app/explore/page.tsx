@@ -97,7 +97,7 @@ function Page() {
         <a href="" className="rounded-full bg-white px-4 py-2 text-black">
           Featured Sales
         </a>
-        <div className="flex flex-wrap  items-center gap-8 p-8  ">
+        <div className="flex flex-wrap  items-center gap-4 p-8  ">
           {updateData
 
             .filter((val, i) => val.isListed && i < 3)
@@ -118,7 +118,7 @@ function Page() {
         <a href="" className="rounded-full bg-white px-4 py-2 text-black">
           Explore
         </a>
-        <div className="flex flex-wrap items-center gap-8 p-8">
+        <div className="flex flex-wrap items-center justify-around p-8">
           {shuffleArray(updateData)
             .filter((v) => v.isListed)
             .map((val) => (
