@@ -1,9 +1,35 @@
+"use client";
+
 import NavBar from "@/app/components/NavBar";
 import { poppins } from "@/app/lib/fonts";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Paripp from "../../../abi/Paripp.json";
+import { ethers } from "ethers";
+import { useParams } from "next/navigation";
+import { formatAddress } from "@/app/utils";
+import { useMetaMask } from "@/app/hooks/useMetamask";
 
 function Page() {
+  const [data, setData] = useState<{
+    price: string;
+    tokenId: string;
+    seller: string;
+    owner: string;
+    image: string;
+    name: string;
+    description: string;
+  }>({
+    price: "",
+    tokenId: "",
+    seller: "",
+    owner: "",
+    image: "",
+    name: "",
+    description: "",
+  });
+  const [tags, setTags] = useState<string[]>([]);
+  const [fetched, setDataFetched] = useState(false);
   const tagArray = [
     "cool",
     "awesome",
@@ -33,26 +59,83 @@ function Page() {
     }
     return array;
   }
+  const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
+  useEffect(() => {
+    const shuffledArray = shuffleArray(tagArray.slice());
+    setTags([shuffledArray[0], shuffledArray[1], shuffledArray[2]]);
+  }, []);
 
-  const shuffledArray = shuffleArray(tagArray.slice());
+  const { id } = useParams();
 
-  const tag1 = shuffledArray[0];
-  const tag2 = shuffledArray[1];
-  const tag3 = shuffledArray[2];
-  let itemName = "Item to be sold";
-  let owner = "0xufuieiwefjehd";
-  let currentOwner = "0xufuieiwefjehd";
+  useEffect(() => {
+    if (!fetched) {
+      getNFTData(id as string);
+    }
+  }, [fetched]);
 
-  let imgUrl = "/test.svg";
-  let desc = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati! Beatae, laboriosam maxime, quae nemo eum necessitatibus iste voluptatum enim quasi eos corporis autem officia.
-Obcaecati eligendi consequatur ipsum, labore placeat similique ipsam, quam cum natus nulla culpa sint aperiam nemo molestiae alias. Autem quaerat quasi atque facilis fugit incidunt repellendus dolores nihil, laudantium exercitationem!
-Aspernatur unde nisi voluptatibus ullam accusamus atque provident odit. Nihil numquam a minus qui est repellendus assumenda magni, odit iure ea libero. Quos modi, ad quis aliquid laudantium dolor magni?`;
-  let price = "10";
+  async function getNFTData(tokenId: string) {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer = await provider.getSigner();
+    const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+
+    let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
+    var tokenURI = await contract.tokenURI(tokenId);
+    const listedToken = await contract.getListedTokenForId(tokenId);
+    var tokenURI = await contract.tokenURI(tokenId);
+    tokenURI = process.env.NEXT_PUBLIC_GATEWAY_URL + "ipfs/" + tokenURI;
+    const response = await fetch(tokenURI);
+    const meta = await response.json();
+    let price = ethers.formatUnits(listedToken.price.toString(), "ether");
+
+    let item = {
+      price: price,
+      tokenId: tokenId,
+      seller: listedToken.seller,
+      owner: listedToken.owner,
+      image: meta.url,
+      name: meta.name,
+      description: meta.description,
+    };
+    console.log(item);
+    setData(item);
+    setDataFetched(true);
+  }
+
+  async function buyNFT(tokenId: string) {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+
+      let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
+      const salePrice = ethers.parseUnits(data.price.toString(), "ether");
+      let transaction = await contract.executeSale(tokenId, {
+        value: salePrice,
+      });
+      await transaction.wait();
+      alert("You successfully bought the NFT!");
+    } catch (e) {
+      alert("Upload Error" + e);
+    }
+  }
+
+  let itemName = data.name;
+  let owner = data.owner;
+  let currentOwner = data.seller;
+
+  let imgUrl = data.image;
+  let desc = data.description;
+  let price = data.price;
 
   return (
     <main
-      className={`flex min-h-screen w-full flex-col items-center justify-between overflow-x-hidden bg-[#f4f4fd] ${poppins.className}`}
+      className={`relative flex min-h-screen w-full flex-col items-center justify-between overflow-x-hidden bg-[#f4f4fd] ${poppins.className}`}
     >
+      {!fetched && (
+        <div className="absolute inset-0 flex flex-col justify-center bg-red-400 text-center text-7xl">
+          <h1>Fetching Data</h1>
+        </div>
+      )}
       <NavBar color="#000000" />
 
       <div className="mx-auto  flex w-[80%] flex-col">
@@ -74,31 +157,37 @@ Aspernatur unde nisi voluptatibus ullam accusamus atque provident odit. Nihil nu
               <h1 className="pt-1 text-2xl text-black">
                 Price : {price} MATIC
               </h1>
-              <h2 className="text-lg text-[#7e7d86]">
-                Current Owner : {currentOwner}
+              <h2 aria-label={currentOwner} className="text-lg text-[#7e7d86]">
+                Current Owner : {formatAddress(currentOwner, 8)}
               </h2>
-              <h2 className="text-md text-[#7e7d86]">
-                Original Owner : {owner}
+              <h2 aria-label={owner} className="text-md text-[#7e7d86]">
+                Original Owner : {formatAddress(owner, 8)}
               </h2>
               <div className="flex gap-2 py-2">
                 <div className="rounded-md bg-[#eeecf9] px-2 py-1 text-sm text-black">
-                  {tag1}
+                  {tags[0]}
                 </div>
                 <div className="rounded-md bg-[#eeecf9] px-2 py-1 text-sm text-black">
-                  {tag2}
+                  {tags[1]}
                 </div>
                 <div className="rounded-md bg-[#eeecf9] px-2 py-1 text-sm text-black">
-                  {tag3}
+                  {tags[2]}
                 </div>
               </div>
-              <button className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]">
-                Buy Now
-              </button>
+              {currentOwner.toLowerCase() != wallet.accounts[0] ? (
+                <button className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]">
+                  Buy Now
+                </button>
+              ) : (
+                <button className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]">
+                  Owned
+                </button>
+              )}
             </div>
           </div>
-          <div className="w-[50%] flex flex-col justify-center items-start">
-          <h1 className="pt-2 text-4xl text-black">Description</h1>
-          <h2 className="pt-4 text-xl text-[#7e7d86] ">{desc}</h2>
+          <div className="flex w-[50%] flex-col items-start justify-center">
+            <h1 className="pt-2 text-4xl text-black">Description</h1>
+            <h2 className="pt-4 text-xl text-[#7e7d86] ">{desc}</h2>
           </div>
         </div>
       </div>

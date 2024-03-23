@@ -11,7 +11,8 @@ function Page() {
   const [dataFetched, updateFetched] = useState(false);
   const [updateData, setUpdateData] = useState<
     {
-      price: number;
+      isListed: boolean;
+      price: string;
       tokenId: string;
       seller: string;
       owner: string;
@@ -21,12 +22,19 @@ function Page() {
     }[]
   >([]);
 
+  if (typeof window === "undefined") {
+    /* we're on the server */
+  }
+
   async function getAllNFTs() {
     const provider = new ethers.BrowserProvider(window.ethereum);
+
     const signer = await provider.getSigner();
     const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
     let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
+
     let transaction = await contract.getAllNFTs();
+    console.log(transaction);
 
     const items = await Promise.all(
       transaction.map(async (i: any) => {
@@ -45,6 +53,7 @@ function Page() {
           image: meta.url,
           name: meta.name,
           description: meta.description,
+          isListed: i.currentlyListed,
         };
         console.log(item);
 
@@ -82,14 +91,17 @@ function Page() {
           Featured Sells
         </a>
         <div className="flex flex-wrap items-center gap-8 p-8  ">
-          {updateData.map((val) => (
-            <SaleBox
-              key={val.tokenId}
-              imgUrl={val.image}
-              itemName={val.name}
-              desc={val.description}
-            />
-          ))}
+          {updateData
+            .filter((val, i) => val.isListed)
+            .map((val) => (
+              <SaleBox
+                key={val.tokenId}
+                id={val.tokenId}
+                imgUrl={val.image}
+                itemName={val.name}
+                desc={val.description}
+              />
+            ))}
         </div>
       </section>
       <section className="mx-auto w-[90%]">
@@ -100,6 +112,7 @@ function Page() {
           {updateData.map((val) => (
             <SaleBox
               key={val.tokenId}
+              id={val.tokenId}
               imgUrl={val.image}
               itemName={val.name}
               desc={val.description}

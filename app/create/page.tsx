@@ -66,6 +66,7 @@ export default function Page() {
       });
       const resData = await res.json();
       setImgCid(resData.IpfsHash);
+      await uploadJson();
       setUploading(false);
     } catch (e) {
       console.log(e);
@@ -77,6 +78,7 @@ export default function Page() {
   const uploadJson = async () => {
     try {
       setUploading(true);
+      if (imgCid == "") return;
       const data = JSON.stringify({
         pinataContent: {
           name: name.replace(/\s+/gi, "-").replace(/[^a-zA-Z0-9\-]/gi, ""),
@@ -96,6 +98,7 @@ export default function Page() {
       const resData = await res.json();
       setJsonCid(resData.IpfsHash);
       setUploading(false);
+      listNFT(resData.IpfsHash);
     } catch (e) {
       console.log(e);
       setUploading(false);
@@ -133,12 +136,6 @@ export default function Page() {
   const handleSubmit = async () => {
     if (selectedFile && name != "" && desc != "" && cost != 0) {
       await uploadFile(selectedFile as Blob);
-      if (imgCid != "") {
-        await uploadJson();
-        console.log(jsonCid);
-
-        await listNFT(jsonCid);
-      }
     }
   };
 

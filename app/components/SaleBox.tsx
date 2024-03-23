@@ -1,9 +1,15 @@
 import Image from "next/image";
 import React from "react";
 
-function SaleBox(props: { imgUrl: string; itemName: string; desc: string }) {
+function SaleBox(props: {
+  imgUrl: string;
+  itemName: string;
+  desc: string;
+  id: string;
+}) {
   return (
-    <div
+    <a
+      href={`/item/${props.id}`}
       className={`mb-5 flex h-[500px] w-[350px] flex-col justify-between overflow-hidden rounded-2xl bg-[#f4f2f4] drop-shadow-2xl transition-all hover:scale-[102%]`}
     >
       <div className="flex flex-col">
@@ -21,7 +27,7 @@ function SaleBox(props: { imgUrl: string; itemName: string; desc: string }) {
       </div>
       <h2 className="p-4 text-sm text-black">{props.desc}</h2>
       <div>.</div>
-    </div>
+    </a>
   );
 }
 
