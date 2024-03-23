@@ -70,7 +70,7 @@ function Page() {
           <h1
             className={` w-[100%] text-center text-6xl font-semibold text-[#ab9ff2] ${inter.className}`}
           >
-            Pappadam Marketplace
+            The TRaCE Market
           </h1>
           <h2 className="p-2 text-xl">
             something about exploring the contents

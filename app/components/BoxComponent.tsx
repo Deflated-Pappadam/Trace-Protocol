@@ -1,11 +1,13 @@
 "use client";
 import { easeInOut, motion } from "framer-motion";
+import Image from "next/image";
 import React from "react";
 
 function BoxComponent(props: {
   bgcolor: string;
   text: string;
   textColor: string;
+  imgUrl:string;
 }) {
   return (
     <motion.div
@@ -16,7 +18,7 @@ function BoxComponent(props: {
       style={{ backgroundColor: props.bgcolor, color: props.textColor }}
     >
       <h1 className="text-4xl font-medium">{props.text}</h1>
-      <div>.</div>
+      <Image src={props.imgUrl} alt="" width={200} height={200}/>
     </motion.div>
   );
 }
