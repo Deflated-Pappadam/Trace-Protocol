@@ -73,13 +73,11 @@ function Page() {
           <SaleBox
             imgUrl="test.svg"
             itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
+            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!" id={""}          />
           <SaleBox
             imgUrl="test.svg"
             itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
+            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!" id={""}          />
         </div>
       </section>
       <section className="mx-auto w-[90%]">

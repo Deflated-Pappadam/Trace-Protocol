@@ -6,6 +6,7 @@ import NavBar from "../components/NavBar";
 import SaleBox from "../components/SaleBox";
 import Paripp from "../../abi/Paripp.json";
 import { ethers } from "ethers";
+import { shuffleArray } from "../utils";
 
 function Page() {
   const [dataFetched, updateFetched] = useState(false);
@@ -71,8 +72,8 @@ function Page() {
       className={`relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
     >
       {!dataFetched && (
-        <div className="absolute inset-0 flex flex-col justify-center bg-red-400 text-center text-7xl">
-          <h1>Fetching Data</h1>
+        <div className="absolute inset-0 flex flex-col justify-center bg-[#e2dffe]  text-center text-7xl">
+          <h1 className="text-black">Fetching Data</h1>
         </div>
       )}
       <NavBar color="#ffffff" />
@@ -95,9 +96,11 @@ function Page() {
         <a href="" className="rounded-full bg-white px-4 py-2 text-black">
           Featured Sells
         </a>
-        <div className="flex flex-wrap items-center gap-8 p-8  ">
+        <div className="flex flex-wrap  items-center gap-8 p-8  ">
           {updateData
-            .filter((val, i) => val.isListed)
+
+            .filter((val, i) => val.isListed && i < 3)
+            .reverse()
             .map((val) => (
               <SaleBox
                 key={val.tokenId}
@@ -114,7 +117,7 @@ function Page() {
           Explore
         </a>
         <div className="flex flex-wrap items-center gap-8 p-8">
-          {updateData.map((val) => (
+          {shuffleArray(updateData).map((val) => (
             <SaleBox
               key={val.tokenId}
               id={val.tokenId}

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import Paripp from "../../../abi/Paripp.json";
 import { ethers } from "ethers";
 import { useParams } from "next/navigation";
-import { formatAddress } from "@/app/utils";
+import { formatAddress, shuffleArray } from "@/app/utils";
 import { useMetaMask } from "@/app/hooks/useMetamask";
 
 function Page() {
@@ -52,13 +52,7 @@ function Page() {
     "stellar",
     "exceptional",
   ];
-  function shuffleArray(array: string[] | any[]) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
+  
   const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
   useEffect(() => {
     const shuffledArray = shuffleArray(tagArray.slice());
@@ -132,8 +126,8 @@ function Page() {
       className={`relative flex min-h-screen w-full flex-col items-center justify-between overflow-x-hidden bg-[#f4f4fd] ${poppins.className}`}
     >
       {!fetched && (
-        <div className="absolute inset-0 flex flex-col justify-center bg-red-400 text-center text-7xl">
-          <h1>Fetching Data</h1>
+        <div className="absolute inset-0 flex flex-col justify-center bg-[#e2dffe] text-center text-7xl">
+          <h1 className="text-black">Fetching Data</h1>
         </div>
       )}
       <NavBar color="#000000" />
@@ -141,8 +135,8 @@ function Page() {
       <div className="mx-auto  flex w-[80%] flex-col">
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
-            <div className="text-md flex w-fit items-start justify-between rounded-3xl bg-[#ffffff] px-2 py-1 text-black ">
-              explore &gt; {itemName}
+            <div className="text-md flex w-fit items-start justify-between rounded-3xl bg-[#ffffff] px-2 py-1 text-black my-2 ">
+              <a className="inline hover:bg-[#a6a6ea] bg-[#d7d7ff] px-2 py-1 rounded-2xl mr-1 cursor-pointer transition-all duration-150" >explore</a> <span className="py-1"> &gt;  {itemName}</span>
             </div>
 
             <div className="my-2 flex w-fit flex-col rounded-2xl bg-white p-4">

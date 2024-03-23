@@ -11,3 +11,11 @@ export const formatChainAsNum = (chainIdHex: string) => {
 export const formatAddress = (addr: string,num:number) => {
     return `${addr.substring(0, num)}...`;
 };
+
+export function shuffleArray(array: string[] | any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
