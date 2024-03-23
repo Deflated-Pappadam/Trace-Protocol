@@ -4,6 +4,7 @@ import React from "react";
 function SaleBox(props: {
   imgUrl: string;
   itemName: string;
+  price: string;
   desc: string;
   id: string;
 }) {
@@ -23,7 +24,7 @@ function SaleBox(props: {
       </div>
       <div className="flex flex-col gap-4 p-5">
         <h1 className=" text-xl text-black">{props.itemName}</h1>
-        <h2 className=" text-md text-black">Price : 10 Matic</h2>
+        <h2 className=" text-md text-black">Price : {props.price} Matic</h2>
       </div>
       <h2 className="flex px-4 text-[#4a4a4d]">
         {props.desc.substring(0, 160)}...

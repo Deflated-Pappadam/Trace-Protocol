@@ -9,6 +9,7 @@ import { ethers } from "ethers";
 import { useParams } from "next/navigation";
 import { formatAddress, shuffleArray } from "@/app/utils";
 import { useMetaMask } from "@/app/hooks/useMetamask";
+import Spinner from "@/app/lib/icons";
 
 function Page() {
   const [data, setData] = useState<{
@@ -30,6 +31,7 @@ function Page() {
   });
   const [tags, setTags] = useState<string[]>([]);
   const [fetched, setDataFetched] = useState(false);
+  const [transacting, setTransacting] = useState(false);
   const tagArray = [
     "cool",
     "awesome",
@@ -97,6 +99,7 @@ function Page() {
 
   async function buyNFT(tokenId: string) {
     try {
+      setTransacting(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
@@ -107,14 +110,17 @@ function Page() {
         value: salePrice,
       });
       await transaction.wait();
+      setTransacting(false);
       alert("You successfully bought the NFT!");
     } catch (e) {
+      setTransacting(false);
       alert("Upload Error" + e);
     }
   }
 
   async function ListNFT(tokenId: string) {
     try {
+      setTransacting(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
@@ -122,8 +128,10 @@ function Page() {
       let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
       let transaction = await contract.ListItem(tokenId);
       await transaction.wait();
+      setTransacting(false);
       alert("successfully listed the NFT for sale!");
     } catch (e) {
+      setTransacting(false);
       alert("Upload Error" + e);
     }
   }
@@ -188,17 +196,40 @@ function Page() {
               </div>
               {currentOwner.toLowerCase() != wallet.accounts[0] ? (
                 <button
+                  disabled={transacting}
+                  style={
+                    transacting
+                      ? { backgroundColor: "#8f8f8f" }
+                      : { backgroundColor: "#aa99ec" }
+                  }
                   onClick={async () => await buyNFT(id as string)}
                   className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]"
                 >
-                  Buy Now
+                  {transacting ? (
+                    <span className="flex justify-center gap-2">
+                      Transacting <Spinner />
+                    </span>
+                  ) : (
+                    "Buy Now"
+                  )}
                 </button>
               ) : (
                 <button
                   onClick={async () => await ListNFT(id as string)}
-                  className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]"
+                  style={
+                    transacting
+                      ? { backgroundColor: "#8f8f8f" }
+                      : { backgroundColor: "#aa99ec" }
+                  }
+                  className="rounded-md  px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#8f8f8f]"
                 >
-                  List For Sale
+                  {transacting ? (
+                    <span className="flex justify-center gap-2">
+                      Listing <Spinner />
+                    </span>
+                  ) : (
+                    "List For Sale"
+                  )}
                 </button>
               )}
             </div>

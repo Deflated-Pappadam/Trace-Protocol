@@ -72,7 +72,7 @@ function Page() {
 
   return (
     <main
-      className={`relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
+      className={`relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] text-white ${poppins.className}`}
     >
       {!dataFetched && (
         <div className="absolute inset-0 flex flex-col justify-center bg-[#e2dffe]  text-center text-7xl">
@@ -108,6 +108,7 @@ function Page() {
               <SaleBox
                 key={val.tokenId}
                 id={val.tokenId}
+                price={val.price}
                 imgUrl={val.image}
                 itemName={val.name}
                 desc={val.description}
@@ -120,15 +121,18 @@ function Page() {
           Explore
         </a>
         <div className="flex flex-wrap items-center gap-8 p-8">
-          {shuffleArray(updateData).map((val) => (
-            <SaleBox
-              key={val.tokenId}
-              id={val.tokenId}
-              imgUrl={val.image}
-              itemName={val.name}
-              desc={val.description}
-            />
-          ))}
+          {shuffleArray(updateData)
+            .filter((v) => v.isListed)
+            .map((val) => (
+              <SaleBox
+                key={val.tokenId}
+                price={val.price}
+                id={val.tokenId}
+                imgUrl={val.image}
+                itemName={val.name}
+                desc={val.description}
+              />
+            ))}
         </div>
       </section>
     </main>

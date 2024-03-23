@@ -72,8 +72,13 @@ function Page() {
   }
   return (
     <main
-      className={`flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
+      className={`relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] text-white ${poppins.className}`}
     >
+      {!fetched && (
+        <div className="absolute inset-0 flex flex-col justify-center bg-[#e2dffe]  text-center text-7xl">
+          <h1 className="text-black">Fetching Data</h1>
+        </div>
+      )}
       <NavBar color="#ffffff" />
 
       <section className="flex min-h-[200px] w-full flex-col items-start justify-center">
@@ -133,6 +138,7 @@ function Page() {
             .map((data, i) => (
               <SaleBox
                 key={i}
+                price={data.price}
                 imgUrl={data.image}
                 itemName={data.name}
                 desc={data.description}
@@ -151,6 +157,7 @@ function Page() {
             .map((data, i) => (
               <SaleBox
                 key={i}
+                price={data.price}
                 imgUrl={data.image}
                 itemName={data.name}
                 desc={data.description}

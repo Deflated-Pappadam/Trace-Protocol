@@ -4,10 +4,13 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { inter, mohave, pecita, poppins } from "../lib/fonts";
 import NavBar from "../components/NavBar";
 import { useMetaMask } from "../hooks/useMetamask";
-import { formatAddress } from "../utils";
+import { createQr, formatAddress } from "../utils";
 import Image from "next/image";
 import Paripp from "../../abi/Paripp.json";
 import { ethers } from "ethers";
+import Spinner from "../lib/icons";
+import Modal from "../components/Modal";
+import { title } from "process";
 // import {db , storage} from "../utils/"
 
 if (typeof window === "undefined") {
@@ -33,6 +36,13 @@ export default function Page() {
   const [imgCid, setImgCid] = useState("");
   const [jsonCid, setJsonCid] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalImage, setModalImage] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalButtonText, setModalButtonText] = useState("");
+  const [modalButtonLink, setModalButtonLink] = useState("");
+  const [modalType, setModalType] = useState<"error" | "success">("success");
 
   useEffect(() => {
     if (!selectedFile) {
@@ -66,16 +76,21 @@ export default function Page() {
       });
       const resData = await res.json();
       setImgCid(resData.IpfsHash);
-      await uploadJson();
-      setUploading(false);
+      await uploadJson(resData.IpfsHash);
     } catch (e) {
       console.log(e);
       setUploading(false);
-      alert("Trouble uploading file");
+      showModal(
+        "error",
+        "Upload Failed",
+        "There was some trouble while uploading",
+        "/",
+        "Go Back Home",
+      );
     }
   };
 
-  const uploadJson = async () => {
+  const uploadJson = async (imgCid: string) => {
     try {
       setUploading(true);
       if (imgCid == "") return;
@@ -102,7 +117,13 @@ export default function Page() {
     } catch (e) {
       console.log(e);
       setUploading(false);
-      alert("Trouble uploading file");
+      showModal(
+        "error",
+        "Upload Failed",
+        "There was some trouble while uploading",
+        "/",
+        "Go Back Home",
+      );
     }
   };
 
@@ -122,14 +143,33 @@ export default function Page() {
 
       let transaction = await contract.createToken(metadataURL, price);
       await transaction.wait();
-      setUploading(false);
+      let currentId = await contract.getCurrentToken();
 
-      alert("Successfully listed your NFT!");
-      window.location.replace("/");
+      let qrCode = await createQr(
+        process.env.NODE_ENV == "development"
+          ? `http://localhost/item/${currentId}`
+          : `http://something.vercel.app/item/${currentId}`,
+        100,
+      );
+      setUploading(false);
+      showModal(
+        "success",
+        "Listing Successfull",
+        "Product Is Listed Successfully",
+        "/",
+        "Go Back Home",
+        qrCode,
+      );
     } catch (e) {
       setUploading(false);
 
-      alert("Upload error" + e);
+      showModal(
+        "error",
+        "Upload Failed",
+        "There was some trouble while uploading",
+        "/",
+        "Go Back Home",
+      );
     }
   }
 
@@ -139,10 +179,37 @@ export default function Page() {
     }
   };
 
+  const showModal = async (
+    type: "success" | "error",
+    title: string,
+    message: string,
+    href: string,
+    buttonText: string,
+    imgSrc?: string,
+  ) => {
+    setModalType(type);
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalOpen(true);
+    setModalButtonText(buttonText);
+    setModalButtonLink(href);
+    if (imgSrc) setModalImage(imgSrc);
+  };
+
   return (
     <main
-      className={`flex min-h-screen w-full flex-col overflow-x-hidden bg-[#eeecf9] ${poppins.className} text-black `}
+      className={`relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#eeecf9] ${poppins.className} text-black `}
     >
+      <Modal
+        setOpen={setModalOpen}
+        open={modalOpen}
+        title={modalTitle}
+        message={modalMessage}
+        href={modalButtonLink}
+        image={modalImage}
+        buttonText={modalButtonText}
+        type={modalType}
+      />
       <NavBar color="#000000" />
       {!hasProvider && (
         <a href="https://metamask.io" target="_blank">
@@ -188,7 +255,7 @@ export default function Page() {
           />
         </div>
         <div className="flex flex-col gap-3">
-          <label htmlFor="item_cost">price</label>
+          <label htmlFor="item_cost">Price</label>
           <input
             type="number"
             name=""
@@ -227,8 +294,18 @@ export default function Page() {
             )}
           </div>
         </div>
-        <button disabled={uploading} onClick={handleSubmit}>
-          {uploading ? "Uploading..." : "Upload"}
+        <button
+          className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]"
+          disabled={uploading}
+          onClick={handleSubmit}
+        >
+          {uploading ? (
+            <span className="flex justify-center gap-2">
+              Uploading <Spinner />
+            </span>
+          ) : (
+            "Upload"
+          )}
         </button>
       </div>
     </main>
