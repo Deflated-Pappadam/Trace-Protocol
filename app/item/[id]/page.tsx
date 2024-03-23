@@ -11,6 +11,7 @@ import { formatAddress, shuffleArray } from "@/app/utils";
 import { useMetaMask } from "@/app/hooks/useMetamask";
 import Spinner from "@/app/lib/icons";
 import HistoryTable from "@/app/components/HistoryTable";
+import Modal from "@/app/components/Modal";
 
 function Page() {
   const [data, setData] = useState<{
@@ -58,6 +59,30 @@ function Page() {
     "stellar",
     "exceptional",
   ];
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalImage, setModalImage] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalButtonText, setModalButtonText] = useState("");
+  const [modalButtonLink, setModalButtonLink] = useState("");
+  const [modalType, setModalType] = useState<"error" | "success">("success");
+
+  const showModal = async (
+    type: "success" | "error",
+    title: string,
+    message: string,
+    href: string,
+    buttonText: string,
+    imgSrc?: string,
+  ) => {
+    setModalType(type);
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalOpen(true);
+    setModalButtonText(buttonText);
+    setModalButtonLink(href);
+    if (imgSrc) setModalImage(imgSrc);
+  };
 
   const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
   useEffect(() => {
@@ -127,10 +152,22 @@ function Page() {
       });
       await transaction.wait();
       setTransacting(false);
-      alert("You successfully bought the NFT!");
+      showModal(
+        "success",
+        "Listing Successful",
+        `You successfully purchased ${data.name} x1`,
+        "/",
+        "Go Back Home",
+      );
     } catch (e) {
       setTransacting(false);
-      alert("Upload Error" + e);
+      showModal(
+        "error",
+        "Upload Failed",
+        "There was some trouble while uploading",
+        "/",
+        "Go Back Home",
+      );
     }
   }
 
@@ -145,10 +182,22 @@ function Page() {
       let transaction = await contract.ListItem(tokenId);
       await transaction.wait();
       setTransacting(false);
-      alert("successfully listed the NFT for sale!");
+      showModal(
+        "success",
+        "Listing Successfull",
+        "Product x1 Is Listed Successfully",
+        "/",
+        "Go Back Home",
+      );
     } catch (e) {
       setTransacting(false);
-      alert("Upload Error" + e);
+      showModal(
+        "error",
+        "Upload Failed",
+        "There was some trouble while uploading",
+        "/",
+        "Go Back Home",
+      );
     }
   }
 
@@ -164,6 +213,16 @@ function Page() {
     <main
       className={`relative flex min-h-screen w-full flex-col items-center justify-between overflow-x-hidden bg-[#f4f4fd] ${poppins.className}`}
     >
+      <Modal
+        setOpen={setModalOpen}
+        open={modalOpen}
+        title={modalTitle}
+        message={modalMessage}
+        href={modalButtonLink}
+        image={modalImage}
+        buttonText={modalButtonText}
+        type={modalType}
+      />
       {!fetched && (
         <div className="absolute inset-0 flex flex-col justify-center bg-[#e2dffe] text-center text-7xl">
           <h1 className="text-black">Fetching Data</h1>
