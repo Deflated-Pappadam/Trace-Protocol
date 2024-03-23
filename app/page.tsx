@@ -75,7 +75,7 @@ export default function Home() {
       <section className="mt-10 flex min-h-screen w-full flex-col items-center justify-between rounded-t-xl bg-[#ab9ff2]">
         <div>.</div>
         <div className="flex flex-col items-center justify-center ">
-          <h3 className={`p-2 text-[#7e7d86] `}>
+          <h3 className={`p-2 text-[#7e7d86] text-2xl`}>
             Welcome to the new norm 
           </h3>
           <h1

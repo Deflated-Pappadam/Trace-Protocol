@@ -7,6 +7,7 @@ import Image from "next/image";
 import Avatars from "../components/avatar";
 import { useMetaMask } from "../hooks/useMetamask";
 import { formatAddress } from "../utils";
+import ListedBox from "../components/ListedBox";
 
 function Page() {
   const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
@@ -86,12 +87,12 @@ function Page() {
           My Purchases
         </a>
         <div className="flex flex-wrap items-center gap-8 p-8  ">
-          <SaleBox
+          <ListedBox
             imgUrl="test.svg"
             itemName="Something to sell"
             desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
           />
-          <SaleBox
+          <ListedBox
             imgUrl="test.svg"
             itemName="Something to sell"
             desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
