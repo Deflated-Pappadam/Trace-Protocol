@@ -17,7 +17,7 @@ export default function Home() {
           whileInView={{ translateY: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 10, damping: 10 }}
         >
-          <h3 className={`p-2 text-[#7e7d86] `}>
+          <h3 className={`p-2 text-[#7e7d86] text-4xl`}>
             Redefining the way of consumerism
           </h3>
           <h1
@@ -36,22 +36,27 @@ export default function Home() {
           bgcolor="#ab9ff2"
           textColor="#161618"
           text="Infinite products, unified under one banner & one protocol."
+          imgUrl="/gear.png"
         />
         <BoxComponent
           bgcolor="#3c315b"
           textColor="#ffffff"
           text="Integrating physical & digital assets into a unified ecosystem."
+          imgUrl="/gear.png"
         />
         <BoxComponent
           bgcolor="#ffdadc"
           textColor="#161618"
           text="Multi-ended model benefiting both businesses and consumers."
+          imgUrl="/gear.png"
         />
       </section>
       <section className="flex h-full min-h-[500px] w-full items-center justify-center">
-        <h1 className="text-6xl font-medium text-[#2c2250]">
+        <h1 className="text-6xl font-medium text-[#2c2250] text-center">
           Controlled by transactions, 
-          Secured by TraCE
+          Secured by TraCE <br/>
+       
+          
         </h1>
       </section>
       <section className="flex items-center justify-center gap-6">
@@ -59,16 +64,19 @@ export default function Home() {
           bgcolor="#ffd13f"
           textColor="#161618"
           text="Identify every step taken during the lifecycle of a product."
+          imgUrl="/gear.png"
         />
         <BoxComponent
           bgcolor="#4a87f2"
           textColor="#ffffff"
           text="Explore a wider range of consumers and mediums."
+          imgUrl="/gear.png"
         />
         <BoxComponent
           bgcolor="#2ebb86"
           textColor="#161618"
           text="Ensure transparent, traceable, and sustained transactions."
+          imgUrl="/gear.png"
         />
       </section>
 
@@ -83,9 +91,9 @@ export default function Home() {
           >
             Deep dive into the realm of TRaCE
           </h1>
-          <button className="m-4 rounded-full bg-white px-6 py-3 text-[#34343a]">
+          <a href="/explore" className="m-4 rounded-full bg-white px-6 py-3 text-[#34343a]">
             Explore the Marketplace
-          </button>
+          </a>
         </div>
         <footer
           id="contact"

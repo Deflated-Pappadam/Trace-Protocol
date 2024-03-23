@@ -20,7 +20,7 @@ function NavBar(props: { color: "#000000" | "#ffffff" }) {
     >
       <div className={`flex gap-12`}>
         <div className={`py-4 text-xl  font-bold`} style={{ color: logoColor }}>
-          Cet Hack
+        TRaCE
         </div>
         <div
           className={`flex items-center gap-6 text-sm `}
