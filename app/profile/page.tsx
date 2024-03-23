@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { inter, poppins } from "../lib/fonts";
 import NavBar from "../components/NavBar";
 import SaleBox from "../components/SaleBox";
@@ -8,10 +8,68 @@ import Avatars from "../components/avatar";
 import { useMetaMask } from "../hooks/useMetamask";
 import { formatAddress } from "../utils";
 import ListedBox from "../components/ListedBox";
+import { ethers } from "ethers";
+import Paripp from "../../abi/Paripp.json";
+import { useParams } from "next/navigation";
 
 function Page() {
   const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
   const [_window, setWindowObject] = React.useState<any>(null);
+  const [fetched, setFetched] = useState(false);
+  const [updateData, setUpdateData] = useState<
+    {
+      isListed: boolean;
+      price: string;
+      tokenId: string;
+      seller: string;
+      owner: string;
+      image: string;
+      name: string;
+      description: string;
+    }[]
+  >([]);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (!fetched) getNFTData(id as string);
+  }, []);
+
+  async function getNFTData(tokenId: string) {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+
+    const signer = await provider.getSigner();
+    const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+    let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
+
+    let transaction = await contract.getMyNFTs();
+    const items = await Promise.all(
+      transaction.map(async (i: any) => {
+        var tokenURI = await contract.tokenURI(i.tokenId);
+        tokenURI = process.env.NEXT_PUBLIC_GATEWAY_URL + "ipfs/" + tokenURI;
+
+        console.log(tokenURI);
+        const response = await fetch(tokenURI);
+        const meta = await response.json();
+        let price = ethers.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          tokenId: Number.parseInt(i.tokenId),
+          seller: i.seller,
+          owner: i.owner,
+          image: meta.url,
+          name: meta.name,
+          description: meta.description,
+          isListed: i.currentlyListed,
+        };
+        console.log(item);
+
+        return item;
+      }),
+    );
+    setFetched(true);
+    setUpdateData(items);
+  }
   return (
     <main
       className={`flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
@@ -19,9 +77,9 @@ function Page() {
       <NavBar color="#ffffff" />
 
       <section className="flex min-h-[200px] w-full flex-col items-start justify-center">
-        <div className="flex flex-col w-[85%] mx-auto items-start  py-10">
+        <div className="mx-auto flex w-[85%] flex-col items-start  py-10">
           <div className="py-5">
-          <Avatars />
+            <Avatars />
           </div>
 
           {!hasProvider && (
@@ -76,14 +134,17 @@ function Page() {
 
        </div>
         <div className="flex flex-wrap items-center gap-8 p-8  ">
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!" id={""}          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!" id={""}          />
+          {updateData
+            .filter((v) => v.isListed)
+            .map((data, i) => (
+              <SaleBox
+                key={i}
+                imgUrl={data.image}
+                itemName={data.name}
+                desc={data.description}
+                id={data.tokenId}
+              />
+            ))}
         </div>
       </section>
       <section className="mx-auto w-[90%]">
@@ -91,16 +152,17 @@ function Page() {
           My Purchases
         </a>
         <div className="flex flex-wrap items-center gap-8 p-8  ">
-          <ListedBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <ListedBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
+          {updateData
+            .filter((v) => !v.isListed)
+            .map((data, i) => (
+              <SaleBox
+                key={i}
+                imgUrl={data.image}
+                itemName={data.name}
+                desc={data.description}
+                id={data.tokenId}
+              />
+            ))}
         </div>
       </section>
     </main>

@@ -52,7 +52,7 @@ function Page() {
     "stellar",
     "exceptional",
   ];
-  
+
   const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
   useEffect(() => {
     const shuffledArray = shuffleArray(tagArray.slice());
@@ -113,6 +113,21 @@ function Page() {
     }
   }
 
+  async function ListNFT(tokenId: string) {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+
+      let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
+      let transaction = await contract.ListItem(tokenId);
+      await transaction.wait();
+      alert("successfully listed the NFT for sale!");
+    } catch (e) {
+      alert("Upload Error" + e);
+    }
+  }
+
   let itemName = data.name;
   let owner = data.owner;
   let currentOwner = data.seller;
@@ -135,8 +150,11 @@ function Page() {
       <div className="mx-auto  flex w-[80%] flex-col">
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
-            <div className="text-md flex w-fit items-start justify-between rounded-3xl bg-[#ffffff] px-2 py-1 text-black my-2 ">
-              <a className="inline hover:bg-[#a6a6ea] bg-[#d7d7ff] px-2 py-1 rounded-2xl mr-1 cursor-pointer transition-all duration-150" >explore</a> <span className="py-1"> &gt;  {itemName}</span>
+            <div className="text-md my-2 flex w-fit items-start justify-between rounded-3xl bg-[#ffffff] px-2 py-1 text-black ">
+              <a className="mr-1 inline cursor-pointer rounded-2xl bg-[#d7d7ff] px-2 py-1 transition-all duration-150 hover:bg-[#a6a6ea]">
+                explore
+              </a>{" "}
+              <span className="py-1"> &gt; {itemName}</span>
             </div>
 
             <div className="my-2 flex w-fit flex-col rounded-2xl bg-white p-4">
@@ -169,12 +187,18 @@ function Page() {
                 </div>
               </div>
               {currentOwner.toLowerCase() != wallet.accounts[0] ? (
-                <button className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]">
+                <button
+                  onClick={async () => await buyNFT(id as string)}
+                  className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]"
+                >
                   Buy Now
                 </button>
               ) : (
-                <button className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]">
-                  Owned
+                <button
+                  onClick={async () => await ListNFT(id as string)}
+                  className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]"
+                >
+                  List For Sale
                 </button>
               )}
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { inter, poppins } from "../lib/fonts";
 import NavBar from "../components/NavBar";
 import SaleBox from "../components/SaleBox";
@@ -66,10 +66,13 @@ function Page() {
     setUpdateData(items);
   }
 
-  if (!dataFetched) getAllNFTs();
+  useEffect(() => {
+    if (!dataFetched) getAllNFTs();
+  }, []);
+
   return (
     <main
-      className={`flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
+      className={`relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
     >
       {!dataFetched && (
         <div className="absolute inset-0 flex flex-col justify-center bg-[#e2dffe]  text-center text-7xl">
@@ -98,7 +101,7 @@ function Page() {
         </a>
         <div className="flex flex-wrap  items-center gap-8 p-8  ">
           {updateData
-            
+
             .filter((val, i) => val.isListed && i < 3)
             .reverse()
             .map((val) => (
@@ -117,7 +120,7 @@ function Page() {
           Explore
         </a>
         <div className="flex flex-wrap items-center gap-8 p-8">
-          {shuffleArray(updateData) .map((val) => (
+          {shuffleArray(updateData).map((val) => (
             <SaleBox
               key={val.tokenId}
               id={val.tokenId}
