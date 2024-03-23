@@ -42,13 +42,13 @@ export default function Home() {
           bgcolor="#3c315b"
           textColor="#ffffff"
           text="Integrating physical & digital assets into a unified ecosystem."
-          imgUrl="/gear.png"
+          imgUrl="/earth.png"
         />
         <BoxComponent
           bgcolor="#ffdadc"
           textColor="#161618"
           text="Multi-ended model benefiting both businesses and consumers."
-          imgUrl="/gear.png"
+          imgUrl="/connect.png"
         />
       </section>
       <section className="flex h-full min-h-[500px] w-full items-center justify-center">
@@ -64,19 +64,19 @@ export default function Home() {
           bgcolor="#ffd13f"
           textColor="#161618"
           text="Identify every step taken during the lifecycle of a product."
-          imgUrl="/gear.png"
+          imgUrl="/tree.png"
         />
         <BoxComponent
           bgcolor="#4a87f2"
           textColor="#ffffff"
           text="Explore a wider range of consumers and mediums."
-          imgUrl="/gear.png"
+          imgUrl="/people.png"
         />
         <BoxComponent
           bgcolor="#2ebb86"
           textColor="#161618"
           text="Ensure transparent, traceable, and sustained transactions."
-          imgUrl="/gear.png"
+          imgUrl="/coin.png"
         />
       </section>
 
