@@ -1,10 +1,10 @@
 import Image from "next/image";
 import React from "react";
 
-function SaleBox(props:{imgUrl:string,itemName:string,tag1:string,tag2:string,tag3:string}) {
+function SaleBox(props: { imgUrl: string; itemName: string; desc: string }) {
   return (
     <div
-      className={`flex h-[500px] w-[350px] flex-col overflow-hidden rounded-2xl bg-[#f4f2f4] drop-shadow-2xl justify-between mb-5`}
+      className={`mb-5 flex h-[500px] w-[350px] flex-col justify-between overflow-hidden rounded-2xl bg-[#f4f2f4] drop-shadow-2xl transition-all hover:scale-[102%]`}
     >
       <div className="flex flex-col">
         <Image
@@ -14,13 +14,13 @@ function SaleBox(props:{imgUrl:string,itemName:string,tag1:string,tag2:string,ta
           height={1080}
           className="h-[250px] object-cover"
         />
-        <h1 className="p-4 text-xl text-black">{props.itemName}</h1>
       </div>
-      <div className="flex p-5 gap-4">
-        <div className="bg-white px-2 py-1 rounded-md text-black text-sm">{props.tag1}</div>
-        <div className="bg-white px-2 py-1 rounded-md text-black text-sm">{props.tag2}</div>
-        <div className="bg-white px-2 py-1 rounded-md text-black text-sm">{props.tag3}</div>
+      <div className="flex flex-col gap-4 p-5">
+        <h1 className=" text-xl text-black">{props.itemName}</h1>
+        <h2 className=" text-md text-black">Price : 10 Matic</h2>
       </div>
+      <h2 className="p-4 text-sm text-black">{props.desc}</h2>
+      <div>.</div>
     </div>
   );
 }

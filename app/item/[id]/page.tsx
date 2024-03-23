@@ -51,7 +51,7 @@ Aspernatur unde nisi voluptatibus ullam accusamus atque provident odit. Nihil nu
 
   return (
     <main
-      className={`flex min-h-screen w-full flex-col items-center justify-between overflow-x-hidden bg-[#ececf9] ${poppins.className}`}
+      className={`flex min-h-screen w-full flex-col items-center justify-between overflow-x-hidden bg-[#f4f4fd] ${poppins.className}`}
     >
       <NavBar color="#000000" />
 
@@ -62,7 +62,7 @@ Aspernatur unde nisi voluptatibus ullam accusamus atque provident odit. Nihil nu
               explore &gt; {itemName}
             </div>
 
-            <div className="flex w-fit flex-col rounded-2xl bg-white p-4 my-2">
+            <div className="my-2 flex w-fit flex-col rounded-2xl bg-white p-4">
               <Image
                 src={imgUrl}
                 alt=""
@@ -71,7 +71,9 @@ Aspernatur unde nisi voluptatibus ullam accusamus atque provident odit. Nihil nu
                 className=" flex h-[300px] w-[300px] items-center justify-center rounded-2xl object-cover"
               />
               <h1 className="pt-2 text-4xl text-black">{itemName}</h1>
-              <h1 className="pt-1 text-2xl text-black">Price : {price} MATIC</h1>
+              <h1 className="pt-1 text-2xl text-black">
+                Price : {price} MATIC
+              </h1>
               <h2 className="text-lg text-[#7e7d86]">
                 Current Owner : {currentOwner}
               </h2>
@@ -88,12 +90,15 @@ Aspernatur unde nisi voluptatibus ullam accusamus atque provident odit. Nihil nu
                 <div className="rounded-md bg-[#eeecf9] px-2 py-1 text-sm text-black">
                   {tag3}
                 </div>
-             
               </div>
               <button className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]">
-              Buy Now
-            </button>
+                Buy Now
+              </button>
             </div>
+          </div>
+          <div className="w-[50%] flex flex-col justify-center items-start">
+          <h1 className="pt-2 text-4xl text-black">Description</h1>
+          <h2 className="pt-4 text-xl text-[#7e7d86] ">{desc}</h2>
           </div>
         </div>
       </div>

@@ -26,7 +26,7 @@ export default function Home() {
         </div>
         <div>.</div>
       </section>
-      <section className="flex items-center justify-center gap-6">
+      <section id="about" className="flex items-center justify-center gap-6">
         <BoxComponent
           bgcolor="#ab9ff2"
           textColor="#161618"
@@ -81,7 +81,7 @@ export default function Home() {
             Explore the Marketplace
           </button>
         </div>
-        <footer className="m-5 mx-auto flex min-h-[300px] w-[90%] flex-col items-center justify-center rounded-xl bg-white">
+        <footer  id="contact" className="m-5 mx-auto flex min-h-[300px] w-[90%] flex-col items-center justify-center rounded-xl bg-white">
           <h1 className="text-center text-6xl font-semibold text-black">
             hello@pappadam.com
           </h1>

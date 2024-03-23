@@ -1,8 +1,10 @@
 import React from "react";
 import { poppins } from "../lib/fonts";
+import Image from "next/image";
 
 function NavBar(props: { color: string }) {
   let logoColor = "#2f2079";
+  let connected = false;
 
   if (props.color === "#ffffff") {
     logoColor = "#ffffff";
@@ -25,23 +27,45 @@ function NavBar(props: { color: string }) {
           >
             Home
           </a>
-          <div className="group rounded-full px-4 py-2 transition-all duration-150 hover:bg-[#e2dffe] hover:text-black">
+          <a
+            href="/#about" className="group rounded-full px-4 py-2 transition-all duration-150 hover:bg-[#e2dffe] hover:text-black">
             About
-          </div>
+          </a>
           <a
             href="/explore"
             className="group rounded-full px-4 py-2 transition-all duration-150 hover:bg-[#e2dffe] hover:text-black"
           >
             Explore
           </a>
-          <div className="group rounded-full px-4 py-2 transition-all duration-150 hover:bg-[#e2dffe] hover:text-black">
+          <a
+            href="/#contact" className="group rounded-full px-4 py-2 transition-all duration-150 hover:bg-[#e2dffe] hover:text-black">
             Contact
-          </div>
+          </a>
         </div>
       </div>
-      <button className="my-4 rounded-full bg-[#ab9ff2] px-4 py-2 text-sm">
-        Download
-      </button>
+      {connected ? (
+        <button className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm">
+          <Image
+            src="/metamask.png"
+            alt=""
+            width={20}
+            height={20}
+            className="m-1 mr-2"
+          />
+           Profile
+        </button>
+      ) : (
+        <button className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm">
+          <Image
+            src="/metamask.png"
+            alt=""
+            width={20}
+            height={20}
+            className="m-1 mr-2"
+          />
+         Connect Metamask
+        </button>
+      )}
     </nav>
   );
 }
