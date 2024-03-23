@@ -8,21 +8,16 @@ export const config = {
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.formData();
-    const file: File | null = data.get("file") as unknown as File;
-    data.append("file", file);
-    data.append(
-      "pinataMetadata",
-      JSON.stringify({
-        name: file.name.replace(/\s+/gi, "-").replace(/[^a-zA-Z0-9\-]/gi, ""),
-      }),
-    );
-    const res = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+    const data = await request.json();
+    console.log(data);
+
+    const res = await fetch("https://api.pinata.cloud/pinning/pinJSONToIPFS", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.PINATA_JWT}`,
+        "Content-Type": "application/json",
       },
-      body: data,
+      body: JSON.stringify(data),
     });
     const { IpfsHash } = await res.json();
     console.log(IpfsHash);

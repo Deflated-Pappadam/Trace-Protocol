@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { inter, mohave, pecita, poppins } from "../lib/fonts";
 import NavBar from "../components/NavBar";
 import { useMetaMask } from "../hooks/useMetamask";
@@ -13,21 +13,26 @@ if (typeof window === "undefined") {
 }
 
 export default function Page() {
-  const [_window, setWindowObject] = React.useState<any>(null);
+  const [_window, setWindowObject] = useState<any>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // you can access window, document here.
     setWindowObject(window);
   }, []);
   //States for form details
-  const [name, setName] = React.useState("");
-  const [desc, setDesc] = React.useState("");
-  const [cost, setCost] = React.useState("");
-  const [image, setImage] = React.useState("");
-  const [selectedFile, setSelectedFile] = React.useState<Blob | MediaSource | undefined>(undefined);
-  const [preview, setPreview] = React.useState("");
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
+  const [cost, setCost] = useState(0);
+  const [image, setImage] = useState("");
+  const [selectedFile, setSelectedFile] = useState<
+    Blob | MediaSource | undefined
+  >(undefined);
+  const [preview, setPreview] = useState("");
+  const [imgCid, setImgCid] = useState("");
+  const [jsonCid, setJsonCid] = useState("");
+  const [uploading, setUploading] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!selectedFile) {
       setPreview("");
       return;
@@ -48,7 +53,64 @@ export default function Page() {
   };
   const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
 
-  const handleSubmit = () => {};
+  const uploadFile = async (fileToUpload: any) => {
+    try {
+      setUploading(true);
+      const data = new FormData();
+      data.set("file", fileToUpload);
+      const res = await fetch("/api/files", {
+        method: "POST",
+        body: data,
+      });
+      const resData = await res.json();
+      setImgCid(resData.IpfsHash);
+      setUploading(false);
+    } catch (e) {
+      console.log(e);
+      setUploading(false);
+      alert("Trouble uploading file");
+    }
+  };
+
+  const uploadJson = async () => {
+    try {
+      setUploading(true);
+      const data = JSON.stringify({
+        pinataContent: {
+          name: name.replace(/\s+/gi, "-").replace(/[^a-zA-Z0-9\-]/gi, ""),
+          description: desc,
+          external_url: process.env.NEXT_PUBLIC_GATEWAY_URL,
+          image: imgCid,
+          url: process.env.NEXT_PUBLIC_GATEWAY_URL + "ipfs/" + imgCid,
+        },
+        pinataMetadata: {
+          name: `metadata-${name.replace(/\s+/gi, "-").replace(/[^a-zA-Z0-9\-]/gi, "")}.json`,
+        },
+      });
+      const res = await fetch("/api/json", {
+        method: "POST",
+        body: data,
+      });
+      const resData = await res.json();
+      setJsonCid(resData.IpfsHash);
+      setUploading(false);
+    } catch (e) {
+      console.log(e);
+      setUploading(false);
+      alert("Trouble uploading file");
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (selectedFile && name != "" && desc != "" && cost != 0) {
+      await uploadFile(selectedFile as Blob);
+      console.log("uploaded " + imgCid);
+
+      if (imgCid != "") {
+        await uploadJson();
+      }
+    }
+  };
 
   return (
     <main
@@ -90,8 +152,7 @@ export default function Page() {
         </div>
         <div className="flex flex-col gap-3">
           <label htmlFor="item_desc">Description</label>
-          <input
-            type="text"
+          <textarea
             name=""
             id="item_desc"
             placeholder="Enter the description"
@@ -102,11 +163,11 @@ export default function Page() {
         <div className="flex flex-col gap-3">
           <label htmlFor="item_cost">price</label>
           <input
-            type="text"
+            type="number"
             name=""
             id="item_cost"
             placeholder="Enter the cost"
-            onChange={(e) => setCost(e.target.value)}
+            onChange={(e) => setCost(Number.parseInt(e.target.value))}
             className="rounded-md border-2 border-slate-200 p-3"
           />
         </div>
@@ -134,14 +195,13 @@ export default function Page() {
               onChange={onSelectFile}
               className="invisible absolute h-full w-full rounded-md border-2 border-slate-200 p-3"
             />
-             {selectedFile &&  <Image src={preview} width={100} height={100} alt={""} /> }
+            {selectedFile && preview && (
+              <Image src={preview} width={100} height={100} alt={""} />
+            )}
           </div>
         </div>
-        <button
-          className="rounded-sm bg-[#a44cd4] p-3 text-white"
-          onClick={handleSubmit}
-        >
-          submit
+        <button disabled={uploading} onClick={handleSubmit}>
+          {uploading ? "Uploading..." : "Upload"}
         </button>
       </div>
     </main>
