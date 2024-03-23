@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useMetaMask } from "../hooks/useMetamask";
 import { formatAddress } from "../utils";
 
-function NavBar(props: { color: string }) {
+function NavBar(props: { color: "#000000" | "#ffffff" }) {
   let logoColor = "#2f2079";
   let connected = false;
   const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
@@ -62,9 +62,7 @@ function NavBar(props: { color: string }) {
             height={20}
             className="m-1 mr-2"
           />
-          <a href="https://metamask.io" target="_blank">
-            Install MetaMask
-          </a>
+          Profile
         </button>
       )}
       {hasProvider && wallet.accounts.length == 0 && (
@@ -97,7 +95,7 @@ function NavBar(props: { color: string }) {
             className="m-1 mr-2"
           />
 
-          {formatAddress(wallet.accounts[0],8)}
+          {formatAddress(wallet.accounts[0], 8)}
         </a>
       )}
     </nav>

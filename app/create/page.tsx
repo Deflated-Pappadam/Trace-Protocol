@@ -6,6 +6,8 @@ import NavBar from "../components/NavBar";
 import { useMetaMask } from "../hooks/useMetamask";
 import { formatAddress } from "../utils";
 import Image from "next/image";
+import Paripp from "../../abi/Paripp.json";
+import ethers from "ethers";
 // import {db , storage} from "../utils/"
 
 if (typeof window === "undefined") {
@@ -101,6 +103,31 @@ export default function Page() {
     }
   };
 
+  async function listNFT(metadataURL: string) {
+    try {
+      setUploading(true);
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+      // updateMessage("Uploading NFT(takes 5 mins).. please dont click anything!")
+
+      let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
+
+      const price = ethers.parseUnits(cost.toString(), "gwei");
+
+      let transaction = await contract.createToken(metadataURL, price);
+      await transaction.wait();
+      setUploading(false);
+
+      alert("Successfully listed your NFT!");
+      window.location.replace("/");
+    } catch (e) {
+      setUploading(false);
+
+      alert("Upload error" + e);
+    }
+  }
+
   const handleSubmit = async () => {
     if (selectedFile && name != "" && desc != "" && cost != 0) {
       await uploadFile(selectedFile as Blob);
@@ -108,6 +135,7 @@ export default function Page() {
 
       if (imgCid != "") {
         await uploadJson();
+        await listNFT(jsonCid);
       }
     }
   };
@@ -116,7 +144,7 @@ export default function Page() {
     <main
       className={`flex min-h-screen w-full flex-col overflow-x-hidden bg-[#eeecf9] ${poppins.className} text-black `}
     >
-      <NavBar />
+      <NavBar color="#000000" />
       {!hasProvider && (
         <a href="https://metamask.io" target="_blank">
           Install MetaMask
