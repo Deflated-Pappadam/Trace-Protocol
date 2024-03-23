@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { inter, mohave, pecita, poppins } from "./lib/fonts";
 import NavBar from "./components/NavBar";
 import BoxComponent from "./components/BoxComponent";
@@ -96,7 +95,7 @@ export default function Home() {
             hello@pappadam.com
           </h1>
           <h2 className="p-2 pt-4 text-xl text-[#7e7d7e]">
-            Something something something
+            Get in Touch
           </h2>
           <h3 className="text-md p-2 text-[#7e7d7e]">
             ©️deflated pappadam 2024

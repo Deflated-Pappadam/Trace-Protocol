@@ -66,6 +66,23 @@ function Page() {
       </section>
       <section className="mx-auto w-[90%]">
         <a href="" className="rounded-full bg-white px-4 py-2 text-black">
+          My Listings
+        </a>
+        <div className="flex flex-wrap items-center gap-8 p-8  ">
+          <SaleBox
+            imgUrl="test.svg"
+            itemName="Something to sell"
+            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
+          />
+          <SaleBox
+            imgUrl="test.svg"
+            itemName="Something to sell"
+            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
+          />
+        </div>
+      </section>
+      <section className="mx-auto w-[90%]">
+        <a href="" className="rounded-full bg-white px-4 py-2 text-black">
           My Purchases
         </a>
         <div className="flex flex-wrap items-center gap-8 p-8  ">
