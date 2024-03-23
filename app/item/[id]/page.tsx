@@ -175,7 +175,10 @@ function Page() {
                 </div>
               </div>
               {currentOwner.toLowerCase() != wallet.accounts[0] ? (
-                <button className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]">
+                <button
+                  onClick={async () => await buyNFT(id as string)}
+                  className="rounded-md bg-[#aa99ec] px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#a390ec]"
+                >
                   Buy Now
                 </button>
               ) : (

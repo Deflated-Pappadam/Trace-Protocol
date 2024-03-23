@@ -68,8 +68,13 @@ function Page() {
   if (!dataFetched) getAllNFTs();
   return (
     <main
-      className={`flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
+      className={`relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
     >
+      {!dataFetched && (
+        <div className="absolute inset-0 flex flex-col justify-center bg-red-400 text-center text-7xl">
+          <h1>Fetching Data</h1>
+        </div>
+      )}
       <NavBar color="#ffffff" />
       <section className="flex min-h-[400px] w-full flex-col items-center justify-center">
         <div className="flex flex-col items-center justify-center ">
