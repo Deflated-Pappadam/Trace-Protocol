@@ -26,7 +26,7 @@ function SaleBox(props: {
         <h2 className=" text-md text-black">Price : 10 Matic</h2>
       </div>
       <h2 className="flex px-4 text-[#4a4a4d]">
-        {props.desc.substring(0, 200)}...
+        {props.desc.substring(0, 160)}...
       </h2>
       <div>.</div>
     </a>
