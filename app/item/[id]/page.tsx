@@ -247,7 +247,7 @@ function Page() {
               >
                 explore
               </a>{" "}
-              <span className="py-1"> &gt; {itemName}</span>
+              <span className="py-1"> &gt; {itemName.split("-").join(" ")}</span>
             </div>
 
             <div className="my-2 flex  justify-center  w-[400px] flex-col rounded-2xl bg-white p-4">

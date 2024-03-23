@@ -90,9 +90,7 @@ function Page() {
           >
             The TRaCE Market
           </h1>
-          <h2 className="p-2 text-xl">
-            something about exploring the contents
-          </h2>
+          <h2 className="p-2 text-xl">Redefining the way of consumerism</h2>
         </div>
       </section>
       <section className="mx-auto w-[90%]">
