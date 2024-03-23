@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { inter, poppins } from "../lib/fonts";
 import NavBar from "../components/NavBar";
 import SaleBox from "../components/SaleBox";
@@ -66,7 +66,10 @@ function Page() {
     setUpdateData(items);
   }
 
-  if (!dataFetched) getAllNFTs();
+  useEffect(() => {
+    if (!dataFetched) getAllNFTs();
+  }, []);
+
   return (
     <main
       className={`relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
