@@ -11,12 +11,15 @@
   "dependencies": {
     "@metamask/detect-provider": "^2.0.0",
     "@openzeppelin/contracts": "^4.9.6",
+    "@types/qrcode": "^1.5.5",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
     "ethers": "^6.11.1",
     "firebase": "^10.9.0",
     "form-data": "^4.0.0",
+    "framer-motion": "^11.0.20",
     "next": "14.1.4",
+    "qrcode": "^1.5.3",
     "react": "^18",
     "react-dom": "^18"
   },

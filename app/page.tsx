@@ -9,16 +9,16 @@ export default function Home() {
       className={`flex min-h-screen w-full flex-col overflow-x-hidden bg-[#eeecf9] ${poppins.className}`}
     >
       <section className="flex min-h-screen w-full flex-col items-center justify-between">
-        <NavBar />
+        <NavBar color="#000000"/>
 
         <div className="flex flex-col items-center justify-center ">
           <h3 className={`p-2 text-[#7e7d86] `}>
-            The crypto wallet that’ll take you places
+            The something rhon should fill up
           </h3>
           <h1
-            className={`w-[80%] text-center text-8xl font-semibold text-[#2c2250] ${inter.className}`}
+            className={` w-[80%] text-center text-8xl font-semibold text-[#2c2250] ${inter.className}`}
           >
-            Your trusted Digisal Marketplace
+            Your trusted ViR<span className="relative text-[#c5bbea] text-center">tua<span className="text-center absolute left-0 text-[#2c2250] px-2">EA</span></span>L Marketplace
           </h1>
           <button className="m-4 rounded-full bg-white px-6 py-3 text-[#34343a]">
             Explore the Marketplace
@@ -26,7 +26,7 @@ export default function Home() {
         </div>
         <div>.</div>
       </section>
-      <section className="flex items-center justify-center gap-6">
+      <section id="about" className="flex items-center justify-center gap-6">
         <BoxComponent
           bgcolor="#ab9ff2"
           textColor="#161618"
@@ -66,21 +66,32 @@ export default function Home() {
         />
       </section>
 
-      <section className="flex min-h-screen w-full flex-col items-center justify-center ">
+      <section className="mt-10 flex min-h-screen w-full flex-col items-center justify-between bg-[#ab9ff2] rounded-t-xl">
+        <div>.</div>
         <div className="flex flex-col items-center justify-center ">
           <h3 className={`p-2 text-[#7e7d86] `}>
-            The crypto wallet that’ll take you places
+            The something rhon should fill up
           </h3>
           <h1
             className={`w-[80%] text-center text-8xl font-semibold text-[#2c2250] ${inter.className}`}
           >
-            something something something 
-            Q```
+            something something something Q```
           </h1>
           <button className="m-4 rounded-full bg-white px-6 py-3 text-[#34343a]">
             Explore the Marketplace
           </button>
         </div>
+        <footer  id="contact" className="m-5 mx-auto flex min-h-[300px] w-[90%] flex-col items-center justify-center rounded-xl bg-white">
+          <h1 className="text-center text-6xl font-semibold text-black">
+            hello@pappadam.com
+          </h1>
+          <h2 className="text-xl text-[#7e7d7e] p-2 pt-4">
+            Something something something
+          </h2>
+          <h3 className="text-md text-[#7e7d7e] p-2">
+            ©️deflated pappadam 2024
+          </h3>
+        </footer>
       </section>
     </main>
   );

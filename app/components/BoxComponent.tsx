@@ -3,7 +3,7 @@ import React from "react";
 function BoxComponent(props: { bgcolor: string; text: string ,textColor:string}) {
   return (
     <div
-      className="flex flex-col h-[500px] w-[400px] items-center justify-between rounded-[20px] p-5"
+      className="flex flex-col h-[500px] w-[400px] items-center justify-between rounded-[20px] p-5 drop-shadow-2xl "
       style={{ backgroundColor: props.bgcolor ,color:props.textColor}}
     >
       <h1 className="text-4xl font-medium">{props.text}</h1>
