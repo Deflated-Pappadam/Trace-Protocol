@@ -17,7 +17,7 @@ export default function Home() {
           whileInView={{ translateY: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 10, damping: 10 }}
         >
-          <h3 className={`p-2 text-4xl text-[#7e7d86]`}>
+          <h3 className={`mt-[2vw] p-2 text-4xl text-[#7e7d86]`}>
             Redefining the way of consumerism
           </h3>
           <h1
@@ -37,7 +37,7 @@ export default function Home() {
           whileInView={{ translateY: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 5, damping: 10 }}
           src="/home-video.mp4"
-          className="outline-nones mt-[40px] w-[60%] border-0"
+          className="outline-nones mt-[0px] w-[55%] border-0"
           autoPlay
           muted
           loop
@@ -122,6 +122,7 @@ export default function Home() {
             ©️deflated pappadam 2024
           </h3>
         </footer>
+        <h3 className="text-md p-2 text-[#7e7d7e]">*All website assets exclusively crafted by our team and stable diffusion model</h3>
       </section>
     </main>
   );
