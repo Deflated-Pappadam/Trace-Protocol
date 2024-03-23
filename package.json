@@ -12,6 +12,7 @@
     "@metamask/detect-provider": "^2.0.0",
     "@openzeppelin/contracts": "^4.9.6",
     "@types/qrcode": "^1.5.5",
+    "@vercel/og": "^0.6.2",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
     "ethers": "^6.11.1",

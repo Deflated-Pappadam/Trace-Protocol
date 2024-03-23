@@ -28,7 +28,7 @@ function Page() {
         <a href="" className="rounded-full bg-white px-4 py-2 text-black">
           Featured Sells
         </a>
-        <div className="flex flex-wrap items-center justify-between p-8  ">
+        <div className="flex flex-wrap items-center gap-8 p-8  ">
           <SaleBox
             imgUrl="test.svg"
             itemName="Something to sell"
@@ -50,7 +50,7 @@ function Page() {
         <a href="" className="rounded-full bg-white px-4 py-2 text-black">
           Explore
         </a>
-        <div className="flex flex-wrap items-center justify-between p-8">
+        <div className="flex flex-wrap items-center gap-8 p-8">
           <SaleBox
             imgUrl="test.svg"
             itemName="Something to sell"

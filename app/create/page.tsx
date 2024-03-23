@@ -164,7 +164,7 @@ export default function Page() {
           target="_blank"
           data-tooltip="Open in Block Explorer"
         >
-          {formatAddress(wallet.accounts[0])}
+          {formatAddress(wallet.accounts[0],8)}
         </a>
       )}
       <div className="m-auto flex w-[40%] flex-col  gap-10 rounded-xl bg-white p-10">

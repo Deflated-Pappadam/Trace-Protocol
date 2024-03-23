@@ -1,14 +1,19 @@
+"use client";
 import React from "react";
 import { poppins } from "../lib/fonts";
 import Image from "next/image";
+import { useMetaMask } from "../hooks/useMetamask";
+import { formatAddress } from "../utils";
 
 function NavBar(props: { color: "#000000" | "#ffffff" }) {
   let logoColor = "#2f2079";
   let connected = false;
-
+  const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
+  const [_window, setWindowObject] = React.useState<any>(null);
   if (props.color === "#ffffff") {
     logoColor = "#ffffff";
   }
+
   return (
     <nav
       className={`mx-auto flex w-[85%] items-center justify-between p-4 text-black ${poppins.className}`}
@@ -47,7 +52,8 @@ function NavBar(props: { color: "#000000" | "#ffffff" }) {
           </a>
         </div>
       </div>
-      {connected ? (
+
+      {!hasProvider && (
         <button className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm">
           <Image
             src="/metamask.png"
@@ -58,8 +64,13 @@ function NavBar(props: { color: "#000000" | "#ffffff" }) {
           />
           Profile
         </button>
-      ) : (
-        <button className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm">
+      )}
+      {hasProvider && wallet.accounts.length == 0 && (
+        <button
+          disabled={isConnecting}
+          onClick={connectMetaMask}
+          className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm"
+        >
           <Image
             src="/metamask.png"
             alt=""
@@ -69,6 +80,23 @@ function NavBar(props: { color: "#000000" | "#ffffff" }) {
           />
           Connect Metamask
         </button>
+      )}
+      {hasProvider && wallet.accounts.length > 0 && (
+        <a
+          href={`/profile`}
+          // https://etherscan.io/address/${wallet.accounts[0]}
+          className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm"
+        >
+          <Image
+            src="/metamask.png"
+            alt=""
+            width={20}
+            height={20}
+            className="m-1 mr-2"
+          />
+
+          {formatAddress(wallet.accounts[0], 8)}
+        </a>
       )}
     </nav>
   );

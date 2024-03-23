@@ -13,15 +13,15 @@ export default function Home() {
 
         <div className="flex flex-col items-center justify-center ">
           <h3 className={`p-2 text-[#7e7d86] `}>
-            The something rhon should fill up
+            Redefining the way of consumerism
           </h3>
           <h1
             className={` w-[80%] text-center text-8xl font-semibold text-[#2c2250] ${inter.className}`}
           >
-            Your trusted ViR<span className="relative text-[#c5bbea] text-center">tua<span className="text-center absolute left-0 text-[#2c2250] px-2">EA</span></span>L Marketplace
+          Welcome to TRaCE protocol
           </h1>
           <button className="m-4 rounded-full bg-white px-6 py-3 text-[#34343a]">
-            Explore the Marketplace
+            Explore the network
           </button>
         </div>
         <div>.</div>
