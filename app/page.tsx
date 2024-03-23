@@ -17,7 +17,7 @@ export default function Home() {
           whileInView={{ translateY: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 10, damping: 10 }}
         >
-          <h3 className={`p-2 text-[#7e7d86] text-4xl`}>
+          <h3 className={`p-2 text-4xl text-[#7e7d86]`}>
             Redefining the way of consumerism
           </h3>
           <h1
@@ -25,13 +25,28 @@ export default function Home() {
           >
             Welcome to TRaCE protocol
           </h1>
-          <a href="/explore" className="m-4 rounded-full bg-white px-6 py-3 text-[#34343a]">
+          <a
+            href="/explore"
+            className="m-4 rounded-full border-2 border-white  bg-white px-6 py-3 text-[#34343a] transition-all duration-300 hover:border-[#5945a1]"
+          >
             Explore the network
           </a>
         </motion.div>
-        <div>.</div>
+        <motion.video
+          initial={{ translateY: 40, opacity: 0 }}
+          whileInView={{ translateY: 0, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 5, damping: 10 }}
+          src="/home-video.mp4"
+          className="outline-nones mt-[40px] w-[60%] border-0"
+          autoPlay
+          muted
+          loop
+        />
       </section>
-      <section id="about" className="flex items-center justify-center gap-6">
+      <section
+        id="about"
+        className="mt-[100px] flex items-center justify-center gap-6"
+      >
         <BoxComponent
           bgcolor="#ab9ff2"
           textColor="#161618"
@@ -52,11 +67,8 @@ export default function Home() {
         />
       </section>
       <section className="flex h-full min-h-[500px] w-full items-center justify-center">
-        <h1 className="text-6xl font-medium text-[#2c2250] text-center">
-          Controlled by transactions, 
-          Secured by TraCE <br/>
-       
-          
+        <h1 className="text-center text-6xl font-medium text-[#2c2250]">
+          Controlled by transactions, Secured by TraCE <br />
         </h1>
       </section>
       <section className="flex items-center justify-center gap-6">
@@ -83,15 +95,18 @@ export default function Home() {
       <section className="mt-10 flex min-h-screen w-full flex-col items-center justify-between rounded-t-xl bg-[#ab9ff2]">
         <div>.</div>
         <div className="flex flex-col items-center justify-center ">
-          <h3 className={`p-2 text-[#7e7d86] text-2xl`}>
-            Welcome to the new norm 
+          <h3 className={`p-2 text-2xl text-[#414044]`}>
+            Welcome to the new norm
           </h3>
           <h1
             className={`w-[80%] text-center text-8xl font-semibold text-[#2c2250] ${inter.className}`}
           >
             Deep dive into the realm of TRaCE
           </h1>
-          <a href="/explore" className="m-4 rounded-full bg-white px-6 py-3 text-[#34343a]">
+          <a
+            href="/explore"
+            className="m-4 rounded-full border-2 border-white  bg-white px-6 py-3 text-[#34343a] transition-all duration-300 hover:border-[#5945a1]"
+          >
             Explore the Marketplace
           </a>
         </div>
@@ -102,9 +117,7 @@ export default function Home() {
           <h1 className="text-center text-6xl font-semibold text-black">
             hello@pappadam.com
           </h1>
-          <h2 className="p-2 pt-4 text-xl text-[#7e7d7e]">
-            Get in Touch
-          </h2>
+          <h2 className="p-2 pt-4 text-xl text-[#7e7d7e]">Get in Touch</h2>
           <h3 className="text-md p-2 text-[#7e7d7e]">
             ©️deflated pappadam 2024
           </h3>

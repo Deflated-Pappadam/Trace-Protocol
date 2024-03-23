@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import { formatAddress, shuffleArray } from "@/app/utils";
 import { useMetaMask } from "@/app/hooks/useMetamask";
 import Spinner from "@/app/lib/icons";
+import HistoryTable from "@/app/components/HistoryTable";
 
 function Page() {
   const [data, setData] = useState<{
@@ -20,6 +21,7 @@ function Page() {
     image: string;
     name: string;
     description: string;
+    isListed: boolean;
   }>({
     price: "",
     tokenId: "",
@@ -28,9 +30,11 @@ function Page() {
     image: "",
     name: "",
     description: "",
+    isListed: false,
   });
   const [tags, setTags] = useState<string[]>([]);
   const [fetched, setDataFetched] = useState(false);
+  const [historyData, setHistoryData] = useState<any[][]>([]);
   const [transacting, setTransacting] = useState(false);
   const tagArray = [
     "cool",
@@ -77,6 +81,17 @@ function Page() {
     let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
     var tokenURI = await contract.tokenURI(tokenId);
     const listedToken = await contract.getListedTokenForId(tokenId);
+    const historyData = await contract.getHistoryById(tokenId);
+    let history_tableData = [];
+    for (let i = 0; i < historyData.length; i++) {
+      const element = historyData[i];
+      history_tableData.push([
+        element[0],
+        ethers.formatUnits(element[1].toString(), "ether"),
+      ]);
+    }
+    setHistoryData(history_tableData);
+
     var tokenURI = await contract.tokenURI(tokenId);
     tokenURI = process.env.NEXT_PUBLIC_GATEWAY_URL + "ipfs/" + tokenURI;
     const response = await fetch(tokenURI);
@@ -91,6 +106,7 @@ function Page() {
       image: meta.url,
       name: meta.name,
       description: meta.description,
+      isListed: listedToken.currentlyListed,
     };
     console.log(item);
     setData(item);
@@ -159,13 +175,16 @@ function Page() {
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
             <div className="text-md my-2 flex w-fit items-start justify-between rounded-3xl bg-[#ffffff] px-2 py-1 text-black ">
-              <a className="mr-1 inline cursor-pointer rounded-2xl bg-[#d7d7ff] px-2 py-1 transition-all duration-150 hover:bg-[#a6a6ea]">
+              <a
+                href="/explore"
+                className="mr-1 inline cursor-pointer rounded-2xl bg-[#d7d7ff] px-2 py-1 transition-all duration-150 hover:bg-[#a6a6ea]"
+              >
                 explore
               </a>{" "}
               <span className="py-1"> &gt; {itemName}</span>
             </div>
 
-            <div className="my-2 flex w-fit flex-col rounded-2xl bg-white p-4">
+            <div className="my-2 flex w-fit max-w-[400px] flex-col rounded-2xl bg-white p-4">
               <Image
                 src={imgUrl}
                 alt=""
@@ -214,23 +233,34 @@ function Page() {
                   )}
                 </button>
               ) : (
-                <button
-                  onClick={async () => await ListNFT(id as string)}
-                  style={
-                    transacting
-                      ? { backgroundColor: "#8f8f8f" }
-                      : { backgroundColor: "#aa99ec" }
-                  }
-                  className="rounded-md  px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#8f8f8f]"
-                >
-                  {transacting ? (
-                    <span className="flex justify-center gap-2">
-                      Listing <Spinner />
-                    </span>
+                <>
+                  {data.isListed ? (
+                    <button
+                      disabled
+                      className="rounded-md bg-[#8f8f8f]  px-4 py-2"
+                    >
+                      Listed
+                    </button>
                   ) : (
-                    "List For Sale"
+                    <button
+                      onClick={async () => await ListNFT(id as string)}
+                      style={
+                        transacting
+                          ? { backgroundColor: "#8f8f8f" }
+                          : { backgroundColor: "#aa99ec" }
+                      }
+                      className="rounded-md  px-4 py-2 transition-all hover:scale-[105%] hover:bg-[#8f8f8f]"
+                    >
+                      {transacting ? (
+                        <span className="flex justify-center gap-2">
+                          Listing <Spinner />
+                        </span>
+                      ) : (
+                        "List For Sale"
+                      )}
+                    </button>
                   )}
-                </button>
+                </>
               )}
             </div>
           </div>
@@ -240,7 +270,7 @@ function Page() {
           </div>
         </div>
       </div>
-      <div>.</div>
+      <HistoryTable data={historyData} />
     </main>
   );
 }

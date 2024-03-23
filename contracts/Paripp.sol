@@ -43,9 +43,16 @@ contract Paripp is ERC721URIStorage {
 
     //This mapping maps tokenId to token info and is helpful when retrieving details about a tokenId
     mapping(uint256 => ListedToken) private idToListedToken;
-    mapping(uint256 => HistoryStruct[]) private idToHistory;
+    mapping(uint256 => HistoryStruct[]) public idToHistory;
+
+    function getHistoryById(
+        uint256 id
+    ) public view returns (HistoryStruct[] memory) {
+        return idToHistory[id];
+    }
 
     constructor() ERC721("Paripp", "PRP") {
+        setApprovalForAll(address(this), true);
         owner = payable(msg.sender);
     }
 
@@ -195,8 +202,6 @@ contract Paripp is ERC721URIStorage {
         _transfer(address(this), msg.sender, tokenId);
 
         //approve the marketplace to sell NFTs on your behalf
-        approve(address(this), tokenId);
-
         //Transfer the listing fee to the marketplace creator
         // payable(owner).transfer(listPrice);
         // console.log("Toko deployed by:", price, msg.value);
@@ -211,5 +216,6 @@ contract Paripp is ERC721URIStorage {
             "Only Current owner can list item for sale"
         );
         idToListedToken[tokenId].currentlyListed = true;
+        _transfer(msg.sender, address(this), tokenId);
     }
 }
