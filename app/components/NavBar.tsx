@@ -54,7 +54,7 @@ function NavBar(props: { color: "#000000" | "#ffffff" }) {
       </div>
 
       {!hasProvider && (
-        <button className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm">
+        <a href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?pli=1" className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm">
           <Image
             src="/metamask.png"
             alt=""
@@ -62,8 +62,8 @@ function NavBar(props: { color: "#000000" | "#ffffff" }) {
             height={20}
             className="m-1 mr-2"
           />
-          Profile
-        </button>
+          Install Metamask
+        </a>
       )}
       {hasProvider && wallet.accounts.length == 0 && (
         <button
