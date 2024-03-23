@@ -144,28 +144,7 @@ export default function Page() {
       className={`flex min-h-screen w-full flex-col overflow-x-hidden bg-[#eeecf9] ${poppins.className} text-black `}
     >
       <NavBar color="#000000" />
-      {!hasProvider && (
-        <a href="https://metamask.io" target="_blank">
-          Install MetaMask
-        </a>
-      )}
-      {_window &&
-        _window.ethereum?.isMetaMask &&
-        wallet.accounts.length < 1 && (
-          <button disabled={isConnecting} onClick={connectMetaMask}>
-            Connect MetaMask
-          </button>
-        )}
-      {hasProvider && wallet.accounts.length > 0 && (
-        <a
-          className="text_link tooltip-bottom"
-          href={`https://etherscan.io/address/${wallet.accounts[0]}`}
-          target="_blank"
-          data-tooltip="Open in Block Explorer"
-        >
-          {formatAddress(wallet.accounts[0], 8)}
-        </a>
-      )}
+      
       <div className="m-auto flex w-[40%] flex-col  gap-10 rounded-xl bg-white p-10">
         <div className="flex flex-col gap-3">
           <label htmlFor="item_name">Name</label>
@@ -227,7 +206,7 @@ export default function Page() {
             )}
           </div>
         </div>
-        <button disabled={uploading} onClick={handleSubmit}>
+        <button disabled={uploading} onClick={handleSubmit} className="bg-[#ab9ff2] px-4 py-2 rounded-xl">
           {uploading ? "Uploading..." : "Upload"}
         </button>
       </div>
