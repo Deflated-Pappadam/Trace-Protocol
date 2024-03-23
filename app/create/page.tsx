@@ -148,7 +148,7 @@ export default function Page() {
       let qrCode = await createQr(
         process.env.NODE_ENV == "development"
           ? `http://localhost/item/${currentId}`
-          : `http://something.vercel.app/item/${currentId}`,
+          : `http://trace-protocol.vercel.app/item/${currentId}`,
         100,
       );
       setUploading(false);
