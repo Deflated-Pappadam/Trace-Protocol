@@ -106,7 +106,7 @@ function Page() {
     const signer = await provider.getSigner();
     const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
 
-    setQrurl(await createQr(tokenId, 200));
+    setQrurl(await createQr(`https://trace-protocol.vercel.app/item/${tokenId}`, 200));
     
     let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
     var tokenURI = await contract.tokenURI(tokenId);
