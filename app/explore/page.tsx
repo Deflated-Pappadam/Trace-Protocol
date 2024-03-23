@@ -1,9 +1,62 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { inter, poppins } from "../lib/fonts";
 import NavBar from "../components/NavBar";
 import SaleBox from "../components/SaleBox";
+import Paripp from "../../abi/Paripp.json";
+import { ethers } from "ethers";
 
 function Page() {
+  const [dataFetched, updateFetched] = useState(false);
+  const [updateData, setUpdateData] = useState<
+    {
+      price: number;
+      tokenId: string;
+      seller: string;
+      owner: string;
+      image: string;
+      name: string;
+      description: string;
+    }[]
+  >([]);
+
+  async function getAllNFTs() {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer = await provider.getSigner();
+    const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+    let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
+    let transaction = await contract.getAllNFTs();
+
+    const items = await Promise.all(
+      transaction.map(async (i: any) => {
+        var tokenURI = await contract.tokenURI(i.tokenId);
+        tokenURI = process.env.NEXT_PUBLIC_GATEWAY_URL + "ipfs/" + tokenURI;
+
+        console.log(tokenURI);
+        const response = await fetch(tokenURI);
+        const meta = await response.json();
+        let price = ethers.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          tokenId: Number.parseInt(i.tokenId),
+          seller: i.seller,
+          owner: i.owner,
+          image: meta.url,
+          name: meta.name,
+          description: meta.description,
+        };
+        console.log(item);
+
+        return item;
+      }),
+    );
+
+    updateFetched(true);
+    setUpdateData(items);
+  }
+
+  if (!dataFetched) getAllNFTs();
   return (
     <main
       className={`flex min-h-screen w-full flex-col overflow-x-hidden bg-[#1c1c1c] ${poppins.className}`}
@@ -29,21 +82,14 @@ function Page() {
           Featured Sells
         </a>
         <div className="flex flex-wrap items-center gap-8 p-8  ">
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
+          {updateData.map((val) => (
+            <SaleBox
+              key={val.tokenId}
+              imgUrl={val.image}
+              itemName={val.name}
+              desc={val.description}
+            />
+          ))}
         </div>
       </section>
       <section className="mx-auto w-[90%]">
@@ -51,51 +97,14 @@ function Page() {
           Explore
         </a>
         <div className="flex flex-wrap items-center gap-8 p-8">
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
-          <SaleBox
-            imgUrl="test.svg"
-            itemName="Something to sell"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est magni veniam tempore hic obcaecati!"
-          />
+          {updateData.map((val) => (
+            <SaleBox
+              key={val.tokenId}
+              imgUrl={val.image}
+              itemName={val.name}
+              desc={val.description}
+            />
+          ))}
         </div>
       </section>
     </main>

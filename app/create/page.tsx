@@ -7,7 +7,7 @@ import { useMetaMask } from "../hooks/useMetamask";
 import { formatAddress } from "../utils";
 import Image from "next/image";
 import Paripp from "../../abi/Paripp.json";
-import ethers from "ethers";
+import { ethers } from "ethers";
 // import {db , storage} from "../utils/"
 
 if (typeof window === "undefined") {
@@ -105,6 +105,8 @@ export default function Page() {
 
   async function listNFT(metadataURL: string) {
     try {
+      console.log("LISTING NFT");
+
       setUploading(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
@@ -131,10 +133,10 @@ export default function Page() {
   const handleSubmit = async () => {
     if (selectedFile && name != "" && desc != "" && cost != 0) {
       await uploadFile(selectedFile as Blob);
-      console.log("uploaded " + imgCid);
-
       if (imgCid != "") {
         await uploadJson();
+        console.log(jsonCid);
+
         await listNFT(jsonCid);
       }
     }
@@ -164,7 +166,7 @@ export default function Page() {
           target="_blank"
           data-tooltip="Open in Block Explorer"
         >
-          {formatAddress(wallet.accounts[0],8)}
+          {formatAddress(wallet.accounts[0], 8)}
         </a>
       )}
       <div className="m-auto flex w-[40%] flex-col  gap-10 rounded-xl bg-white p-10">
