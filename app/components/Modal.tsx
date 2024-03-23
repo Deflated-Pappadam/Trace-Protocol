@@ -17,7 +17,7 @@ export default function Modal(props: {
     <>
       {props.open && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="z-10 flex w-[500px] flex-col items-center gap-6 rounded-xl border-2 bg-white p-5 text-center">
+          <div className="z-10 flex w-[500px] flex-col items-center gap-6 rounded-xl border-2 bg-white p-5 text-center text-black ">
             <div
               style={
                 props.type == "success"

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import Paripp from "../../../abi/Paripp.json";
 import { ethers } from "ethers";
 import { useParams } from "next/navigation";
-import { formatAddress, shuffleArray } from "@/app/utils";
+import { createQr, formatAddress, shuffleArray } from "@/app/utils";
 import { useMetaMask } from "@/app/hooks/useMetamask";
 import Spinner from "@/app/lib/icons";
 import HistoryTable from "@/app/components/HistoryTable";
@@ -37,6 +37,7 @@ function Page() {
   const [fetched, setDataFetched] = useState(false);
   const [historyData, setHistoryData] = useState<any[][]>([]);
   const [transacting, setTransacting] = useState(false);
+  
   const tagArray = [
     "cool",
     "awesome",
@@ -66,6 +67,8 @@ function Page() {
   const [modalButtonText, setModalButtonText] = useState("");
   const [modalButtonLink, setModalButtonLink] = useState("");
   const [modalType, setModalType] = useState<"error" | "success">("success");
+ const [qrUrl,setQrurl]=useState("")
+
 
   const showModal = async (
     type: "success" | "error",
@@ -103,6 +106,8 @@ function Page() {
     const signer = await provider.getSigner();
     const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
 
+    setQrurl(await createQr(tokenId, 200));
+    
     let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
     var tokenURI = await contract.tokenURI(tokenId);
     const listedToken = await contract.getListedTokenForId(tokenId);
@@ -136,6 +141,7 @@ function Page() {
     console.log(item);
     setData(item);
     setDataFetched(true);
+   
   }
 
   async function buyNFT(tokenId: string) {
@@ -177,7 +183,7 @@ function Page() {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
-
+      
       let contract = new ethers.Contract(contractAddress, Paripp.abi, signer);
       let transaction = await contract.ListItem(tokenId);
       await transaction.wait();
@@ -199,6 +205,7 @@ function Page() {
         "Go Back Home",
       );
     }
+    
   }
 
   let itemName = data.name;
@@ -208,7 +215,7 @@ function Page() {
   let imgUrl = data.image;
   let desc = data.description;
   let price = data.price;
-
+  
   return (
     <main
       className={`relative flex min-h-screen w-full flex-col items-center justify-between overflow-x-hidden bg-[#f4f4fd] ${poppins.className}`}
@@ -323,13 +330,20 @@ function Page() {
               )}
             </div>
           </div>
-          <div className="flex w-[50%] flex-col items-start justify-center">
+          <div className="flex w-[60%] flex-col items-start justify-center">
             <h1 className="pt-2 text-4xl text-black">Description</h1>
-            <h2 className="pt-4 text-xl text-[#7e7d86] ">{desc}</h2>
+            <h2 className="pt-4 text-xl text-[#7e7d86]  ">{desc}</h2>
+            <h1 className="pt-2 text-4xl text-black mt-12">Trace History
+            </h1>
+            <div className="w-full flex justify-between items-center gap-4">
+            <Image src={qrUrl} alt="" width={200} height={200}  className="w-[200px] h-[200px] object-contain"   />
+            <HistoryTable data={historyData} />
+           
+            </div>
           </div>
         </div>
       </div>
-      <HistoryTable data={historyData} />
+     <div>.</div>
     </main>
   );
 }

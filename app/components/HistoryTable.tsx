@@ -2,7 +2,7 @@ import React from "react";
 
 export default function HistoryTable(props: { data: any[][] }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col my-2">
       <div className="-m-1.5 overflow-x-auto">
         <div className="inline-block min-w-full p-1.5 align-middle">
           <div className="overflow-hidden">
@@ -23,16 +23,16 @@ export default function HistoryTable(props: { data: any[][] }) {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700 text-black">
                 {props.data.map((val, i) => (
                   <tr
                     key={i}
-                    className="hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="hover:bg-gray-100 dark:hover:bg-[#ab9ff2]"
                   >
-                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800 dark:text-gray-200">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium ">
                       {val[0]}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm ">
                       {val[1]} ether
                     </td>
                   </tr>
