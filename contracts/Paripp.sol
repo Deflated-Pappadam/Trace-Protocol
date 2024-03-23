@@ -112,7 +112,7 @@ contract Paripp is ERC721URIStorage {
             owner: payable(address(this)),
             seller: payable(msg.sender),
             price: price,
-            currentlyListed: false
+            currentlyListed: true
         });
 
         _transfer(msg.sender, address(this), tokenId);
@@ -187,6 +187,8 @@ contract Paripp is ERC721URIStorage {
         //update the details of the token
         idToListedToken[tokenId].currentlyListed = false;
         idToListedToken[tokenId].seller = payable(msg.sender);
+        idToListedToken[tokenId].totalHistory += 1;
+        idToHistory[tokenId].push(HistoryStruct(msg.sender, price));
         _itemsSold.increment();
 
         //Actually transfer the token to the new owner

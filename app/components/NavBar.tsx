@@ -2,7 +2,7 @@ import React from "react";
 import { poppins } from "../lib/fonts";
 import Image from "next/image";
 
-function NavBar(props: { color: string }) {
+function NavBar(props: { color: "#000000" | "#ffffff" }) {
   let logoColor = "#2f2079";
   let connected = false;
 
@@ -28,7 +28,9 @@ function NavBar(props: { color: string }) {
             Home
           </a>
           <a
-            href="/#about" className="group rounded-full px-4 py-2 transition-all duration-150 hover:bg-[#e2dffe] hover:text-black">
+            href="/#about"
+            className="group rounded-full px-4 py-2 transition-all duration-150 hover:bg-[#e2dffe] hover:text-black"
+          >
             About
           </a>
           <a
@@ -38,7 +40,9 @@ function NavBar(props: { color: string }) {
             Explore
           </a>
           <a
-            href="/#contact" className="group rounded-full px-4 py-2 transition-all duration-150 hover:bg-[#e2dffe] hover:text-black">
+            href="/#contact"
+            className="group rounded-full px-4 py-2 transition-all duration-150 hover:bg-[#e2dffe] hover:text-black"
+          >
             Contact
           </a>
         </div>
@@ -52,7 +56,7 @@ function NavBar(props: { color: string }) {
             height={20}
             className="m-1 mr-2"
           />
-           Profile
+          Profile
         </button>
       ) : (
         <button className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm">
@@ -63,7 +67,7 @@ function NavBar(props: { color: string }) {
             height={20}
             className="m-1 mr-2"
           />
-         Connect Metamask
+          Connect Metamask
         </button>
       )}
     </nav>
