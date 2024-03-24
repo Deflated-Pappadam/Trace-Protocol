@@ -15,11 +15,12 @@ The TRaCE (Transparent Records and Commodity Exchange) protocol uniquely identif
 1. 
 
 ## Link to product walkthrough
-[link to video](Link Here)
+[Live Website](https://trace-protocol.vercel.app)
+[Demo Video](https://www.youtube.com/watch?v=j6Hgltnq2rk)
 
    
 ## Libraries used
-```
+```json
 "next": "14.1.4",
  "tailwindcss": "^3.3.0",
 "typescript": "^5"
