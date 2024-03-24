@@ -96,7 +96,7 @@ export default function Home() {
         <div>.</div>
         <div className="flex flex-col items-center justify-center ">
           <h3 className={`p-2 text-2xl text-[#414044]`}>
-            Welcome to the new norm
+          Transparent Records and Commodity Exchange
           </h3>
           <h1
             className={`w-[80%] text-center text-8xl font-semibold text-[#2c2250] ${inter.className}`}
