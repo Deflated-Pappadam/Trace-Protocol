@@ -15,7 +15,7 @@ The TRaCE (Transparent Records and Commodity Exchange) protocol uniquely identif
 1. 
 
 ## Link to product walkthrough
-[Live Website](https://trace-protocol.vercel.app)
+[Live Website](https://trace-protocol.vercel.app) <br/>
 [Demo Video](https://www.youtube.com/watch?v=j6Hgltnq2rk)
 
    
