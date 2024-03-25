@@ -33,7 +33,12 @@ The TRaCE (Transparent Records and Commodity Exchange) protocol uniquely identif
 
 
 ## How to configure
-First, istall the dependencies;
+
+Install MetaMask Extension [Extension Link](https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn)
+
+
+To run Locally,
+First, install the dependencies;
 ```bash
 npm install
 # or
@@ -44,7 +49,10 @@ pnpm install
 
 
 ## How to Run
-Run the development server:
+
+Go to [Live Website](https://trace-protocol.vercel.app/)
+
+Run the development server locally:
 
 ```bash
 npm run dev
