@@ -333,11 +333,11 @@ function Page() {
           <div className="flex w-[60%] flex-col items-start justify-center">
             <h1 className="pt-2 text-4xl text-black">Description</h1>
             <h2 className="pt-4 text-xl text-[#7e7d86]  ">{desc}</h2>
-            <h1 className="pt-2 text-4xl text-black mt-12">Trace History
+            <h1 className="pt-2 text-4xl text-black mt-12">TRaCE History
             </h1>
             <div className="w-full flex justify-between items-center gap-4">
-            <Image src={qrUrl} alt="" width={200} height={200}  className="w-[200px] h-[200px] object-contain"   />
-            <HistoryTable data={historyData} />
+              <Image src={qrUrl} alt="" width={200} height={200}  className="w-[200px] h-[200px] object-contain border-[5px] rounded-md border-[#aa99ec]"   />
+              <HistoryTable data={historyData} />
            
             </div>
           </div>

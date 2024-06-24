@@ -20,7 +20,7 @@ function NavBar(props: { color: "#000000" | "#ffffff" }) {
     >
       <div className={`flex gap-12`}>
         <div className={`py-4 text-xl  font-bold`} style={{ color: logoColor }}>
-        TRaCE
+          TRaCE
         </div>
         <div
           className={`flex items-center gap-6 text-sm `}
@@ -54,7 +54,10 @@ function NavBar(props: { color: "#000000" | "#ffffff" }) {
       </div>
 
       {!hasProvider && (
-        <a href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?pli=1" className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm">
+        <a
+          href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?pli=1"
+          className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm"
+        >
           <Image
             src="/metamask.png"
             alt=""
@@ -66,20 +69,29 @@ function NavBar(props: { color: "#000000" | "#ffffff" }) {
         </a>
       )}
       {hasProvider && wallet.accounts.length == 0 && (
-        <button
-          disabled={isConnecting}
-          onClick={connectMetaMask}
-          className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm"
-        >
-          <Image
-            src="/metamask.png"
-            alt=""
-            width={20}
-            height={20}
-            className="m-1 mr-2"
-          />
-          Connect Metamask
-        </button>
+        <div className="flex gap-2">
+          {" "}
+          {/* <button
+            disabled={isConnecting}
+            onClick={connectMetaMask}
+            className="my-4  flex items-center justify-center rounded-full bg-[#ab9ff2] px-4 py-2 text-sm"
+          >
+            <Image
+              src="/metamask.png"
+              alt=""
+              width={20}
+              height={20}
+              className="m-1 mr-2"
+            />
+            Connect Metamask
+          </button> */}
+          <a
+            href="/profile/org"
+            className="my-4  flex items-center justify-center rounded-full bg-[#ba75e8] px-4 py-2 text-sm"
+          >
+            Login As Manufacturer
+          </a>
+        </div>
       )}
       {hasProvider && wallet.accounts.length > 0 && (
         <a

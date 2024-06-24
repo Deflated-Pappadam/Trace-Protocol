@@ -96,7 +96,7 @@ export default function Home() {
         <div>.</div>
         <div className="flex flex-col items-center justify-center ">
           <h3 className={`p-2 text-2xl text-[#414044]`}>
-          Transparent Records and Commodity Exchange
+          Transparent Records and Colletible Exchange
           </h3>
           <h1
             className={`w-[80%] text-center text-8xl font-semibold text-[#2c2250] ${inter.className}`}
@@ -115,15 +115,14 @@ export default function Home() {
           className="m-5 mx-auto flex min-h-[300px] w-[90%] flex-col items-center justify-center rounded-xl bg-white"
         >
           <h1 className="text-center text-6xl font-semibold text-black">
-            hello@pappadam.com
+            
           </h1>
           <h2 className="p-2 pt-4 text-xl text-[#7e7d7e]">Get in Touch</h2>
           <h3 className="text-md p-2 text-[#7e7d7e]">
-            ©️deflated pappadam 2024
+           
           </h3>
           <h3 className="text-md p-2 text-[#7e7d7e]">*All website assets exclusively crafted by our team or using stable diffusion models</h3>
-        </footer>
-        
+        </footer>        
       </section>
     </main>
   );

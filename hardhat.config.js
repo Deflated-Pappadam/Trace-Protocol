@@ -6,7 +6,7 @@ module.exports = {
   solidity: "0.8.24",
   networks: {
     matic: {
-      url: process.env.POLYGON_RPC,
+      url: "https://rpc-amoy.polygon.technology",
       accounts: [process.env.POLYGON_PRIVATE_KEY],
     },
   },

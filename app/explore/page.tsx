@@ -94,7 +94,7 @@ function Page() {
         </div>
       </section>
       <section className="mx-auto w-[90%]">
-        <a href="" className="rounded-full bg-white px-4 py-2 text-black">
+        <a href="" className="rounded-full text-4xl px-4 py-2 text-[#ab9ff2]">
           Featured Sales
         </a>
         <div className="flex flex-wrap  items-center gap-4 p-8  ">
@@ -115,10 +115,10 @@ function Page() {
         </div>
       </section>
       <section className="mx-auto w-[90%]">
-        <a href="" className="rounded-full bg-white px-4 py-2 text-black">
+      <a href="" className="rounded-full text-4xl px-4 py-2 text-[#ab9ff2]">
           Explore
         </a>
-        <div className="flex flex-wrap items-center justify-around p-8">
+        <div className="flex flex-wrap  items-center gap-4 p-8 ">
           {shuffleArray(updateData)
             .filter((v) => v.isListed)
             .map((val) => (
